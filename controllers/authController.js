@@ -50,7 +50,9 @@ module.exports = {
             }
 
             const profilePicture = profile_picture_base64 || null;
+            console.log('Creating user, profile pic length:', profilePicture ? profilePicture.length : 0);
             const result = await UserModel.create({ username, email, password, dob, age, sex, profile_picture: profilePicture });
+            console.log('User created, id:', result.lastInsertRowid);
 
             const token = jwt.sign({ userId: result.lastInsertRowid }, process.env.JWT_SECRET, { expiresIn: '7d' });
             res.cookie('nutriplan_token', token, {
@@ -61,8 +63,8 @@ module.exports = {
 
             res.redirect('/diet/step1');
         } catch (err) {
-            console.error('Registration error:', err);
-            res.render('register', { user: null, error: 'Errore durante la registrazione' });
+            console.error('Registration error:', err.message);
+            res.render('register', { user: null, error: 'Errore durante la registrazione: ' + err.message });
         }
     },
 

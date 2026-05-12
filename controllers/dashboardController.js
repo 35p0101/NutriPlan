@@ -56,21 +56,25 @@ module.exports = {
     async updateProfilePicture(req, res) {
         try {
             const { profile_picture_base64 } = req.body;
+            console.log('Base64 length:', profile_picture_base64 ? profile_picture_base64.length : 0);
             
             let profilePicture = null;
             
             if (profile_picture_base64 && profile_picture_base64.startsWith('data:image')) {
                 profilePicture = profile_picture_base64;
             } else {
+                console.log('No valid image');
                 return res.redirect('/profile?error=Nessuna immagine ricevuta');
             }
             
+            console.log('Saving picture...');
             await UserModel.updateProfilePicture(req.user.id, profilePicture);
+            console.log('Saved successfully');
             
             res.redirect('/profile?success=Foto profilo aggiornata');
         } catch (err) {
-            console.error('Update picture error:', err);
-            res.redirect('/profile?error=Errore durante aggiornamento foto');
+            console.error('Update picture error:', err.message);
+            res.redirect('/profile?error=Errore: ' + err.message);
         }
     },
 
