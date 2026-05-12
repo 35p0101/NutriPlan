@@ -1487,13 +1487,19 @@ async function generateMealPlan(goal, calorieTarget = 2000) {
         const isDomenica = i === 6;
 
         if (isDomenica) {
+            const sgarroPranzo = getRandomItem(sgarroPranzoCena);
+            const otherSgarroCena = sgarroPranzoCena.filter(p => p.nome !== sgarroPranzo.nome);
+            const sgarroCena = otherSgarroCena.length > 0 
+                ? getRandomItem(otherSgarroCena) 
+                : sgarroPranzo;
+            
             piano[giorno] = {
                 colazione: getRandomItem(sgarroColazione),
                 spuntino1: null,
-                pranzo: getRandomItem(sgarroPranzoCena),
+                pranzo: sgarroPranzo,
                 spuntino2: null,
                 spuntino3: null,
-                cena: getRandomItem(sgarroPranzoCena),
+                cena: sgarroCena,
                 isSgarro: true
             };
         } else {
