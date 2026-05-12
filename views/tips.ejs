@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consigli - NutriPlan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body>
+    <div class="mobile-topbar" id="mobileTopbar">
+        <button class="hamburger-btn" id="sidebarToggle" aria-label="Apri menu">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        </button>
+        <a href="/" class="topbar-logo">
+            <img src="/img/logo.svg" alt="NutriPlan" class="topbar-logo-img">
+            <span class="topbar-logo-text">NutriPlan</span>
+        </a>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <%- include('partials/sidebar') %>
+
+    <main class="main-content">
+        <div class="dashboard-header">
+            <h1>Consigli per la Tua Nutrizione</h1>
+            <p>Suggerimenti personalizzati per il tuo obiettivo di <strong><%= goal === 'slim' ? 'dimagrimento' : 'massa muscolare' %></strong></p>
+        </div>
+
+        <% if (error) { %>
+            <div class="alert alert-error"><%= error %></div>
+        <% } %>
+
+        <section class="tips-section">
+            <h2>10 Consigli Nutrizionali</h2>
+            <div class="tips-grid">
+                <% const tips = goal === 'slim' ? [
+                    { icon: '💧', title: 'Idratati correttamente', text: 'Bevi almeno 2 litri di acqua al giorno. L\'acqua aiuta a controllare l\'appetito e migliora il metabolismo.' },
+                    { icon: '🥗', title: 'Priorizza le verdure', text: 'Abbina sempre una porzione abbondante di verdure ai tuoi pasti per aumentare il senso di sazietà.' },
+                    { icon: '⏰', title: 'Non saltare i pasti', text: 'Mangiare regolarmente mantiene il metabolismo attivo. Salare i pasti rallenta il dispendio energetico.' },
+                    { icon: '😴', title: 'Dormi bene', text: '7-9 ore di sonno per notte. La mancanza di sonno aumenta l\'ormone della fame (grelina).' },
+                    { icon: '🥩', title: 'Proteine a ogni pasto', text: 'Le proteine saziano di più e preservano la massa muscolare durante la dieta.' },
+                    { icon: '🍞', title: 'Limita i carboidrati raffinati', text: 'Riduci pane bianco, pasta raffinata e zuccheri. Preferisci cereali integrali.' },
+                    { icon: '🏃', title: 'Attività fisica regolare', text: 'Combina esercizio aerobico (brucia grassi) e pesi (preserva muscoli).' },
+                    { icon: '📏', title: 'Usa porzioni giuste', text: 'Usa piatti più piccoli e pesate gli alimenti per evitare eccessi calorici.' },
+                    { icon: '🥜', title: 'Includi grassi buoni', text: 'Olio extravergine, avocado, frutta secca. Non temere i grassi, sono essenziali.' },
+                    { icon: '📊', title: 'Tieni un diario alimentare', text: 'Annota cosa mangi per avere consapevolezza delle tue abitudini alimentari.' }
+                ] : [
+                    { icon: '💪', title: 'Surplus calorico controllato', text: 'Mangia il 10-15% in più delle calorie di mantenimento per costruire muscoli senza ingrassare troppo.' },
+                    { icon: '🥩', title: 'Proteine alte', text: 'Consuma 1.6-2.2g di proteine per kg di peso corporeo. Sono fondamentali per la sintesi muscolare.' },
+                    { icon: '🍚', title: 'Carboidrati per energia', text: 'I carboidrati sono il carburante per l\'allenamento. Non limiterli se vuoi performance.' },
+                    { icon: '🏋️', title: 'Allenamento progressivo', text: 'Aumenta gradualmente peso o ripetizioni per stimolare l\'ipertrofia muscolare.' },
+                    { icon: '⏰', title: 'Mangia più spesso', text: '4-6 pasti al giorno per garantire un flusso costante di nutrienti ai muscoli.' },
+                    { icon: '💧', title: 'Idratazione ottimale', text: 'Bevi almeno 3 litri di acqua. L\'acqua è essenziale per le reazioni metaboliche.' },
+                    { icon: '😴', title: 'Recupero adeguato', text: 'Il muscolo cresce durante il riposo, non in palestra. Dormi 7-9 ore.' },
+                    { icon: '🥚', title: 'Uova e carne', text: 'Sono fonti proteiche complete con tutti gli aminoacidi essenziali.' },
+                    { icon: '🥣', title: 'Pre/post workout', text: 'Carboidrati veloci prima e proteine dopo l\'allenamento ottimizzano i risultati.' },
+                    { icon: '📈', title: 'Progressione', text: 'Tieni traccia di pesi, serie e ripetizioni per vedere la tua crescita nel tempo.' }
+                ]; %>
+
+                <% tips.forEach(tip => { %>
+                    <div class="tip-card">
+                        <div class="tip-icon"><%= tip.icon %></div>
+                        <h3><%= tip.title %></h3>
+                        <p><%= tip.text %></p>
+                    </div>
+                <% }); %>
+            </div>
+        </section>
+
+        <section class="food-section">
+            <h2>Alimenti in Evidenza</h2>
+            <p class="section-desc">Informazioni nutrizionali reali da Open Food Facts per aiutarti a fare scelte consapevoli.</p>
+            <div class="food-grid" id="foodGrid">
+                <div class="loading-spinner">Caricamento alimenti...</div>
+            </div>
+        </section>
+    </main>
+
+    <script src="/js/main.js"></script>
+    <script>
+        async function loadFoods() {
+            try {
+                const goal = '<%= goal %>';
+                const res = await fetch(`/api/foods-by-goal?goal=${goal}`);
+                const data = await res.json();
+                const grid = document.getElementById('foodGrid');
+                if (data.foods && data.foods.length > 0) {
+                    grid.innerHTML = data.foods.slice(0, 3).map(food => `
+                        <div class="food-card">
+                            ${food.image ? `<img src="${food.image}" alt="${food.name}" loading="lazy">` : '<div class="food-no-img">🛒</div>'}
+                            <div class="food-info">
+                                <h3>${food.name}</h3>
+                                <p class="food-brand">${food.brand}</p>
+                                <div class="food-nutrition">
+                                    <span>${food.calories} kcal</span>
+                                    <span>P: ${food.protein}g</span>
+                                    <span>C: ${food.carbs}g</span>
+                                    <span>G: ${food.fat}g</span>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    grid.innerHTML = '<p>Nessun alimento disponibile al momento.</p>';
+                }
+            } catch (err) {
+                document.getElementById('foodGrid').innerHTML = '<p>Errore nel caricamento degli alimenti.</p>';
+            }
+        }
+
+        loadFoods();
+    </script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+.auth-card .input-group:first-child {
+    margin-top: 0;
+}
+
+.auth-card .input-group + .input-group {
+    margin-top: 1.25rem;
+}

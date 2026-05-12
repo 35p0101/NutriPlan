@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="NutriPlan - Il tuo piano alimentare personalizzato per raggiungere i tuoi obiettivi di salute e benessere">
+    <title>NutriPlan - Nutrizione Personalizzata</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/auth.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-logo">
+                <img src="/img/logo.svg" alt="NutriPlan" class="logo-img">
+                <span>NutriPlan</span>
+            </a>
+            <div class="nav-links">
+                <% if (user) { %>
+                    <a href="/dashboard" class="btn-primary">Dashboard</a>
+                <% } else { %>
+                    <a href="/login" class="btn-ghost">Accedi</a>
+                    <a href="/register" class="btn-primary">Registrati</a>
+                <% } %>
+            </div>
+        </div>
+    </nav>
+
+    <main class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">La tua nutrizione,<br><em>personalizzata</em></h1>
+            <p class="hero-subtitle">Piani alimentari reali basati sulle tue esigenze. Nessuna dieta fai-da-te, solo scienza e passione per il cibo.</p>
+            <div class="hero-cta">
+                <% if (user) { %>
+                    <a href="/dashboard" class="btn-primary">Vai alla Dashboard</a>
+                <% } else { %>
+                    <a href="/register" class="btn-primary">Inizia Ora</a>
+                    <a href="/login" class="btn-ghost">Accedi</a>
+                <% } %>
+            </div>
+        </div>
+
+        <div class="hero-stats">
+            <div class="stat-card">
+                <span class="stat-number">100%</span>
+                <span class="stat-label">Personalizzato</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">7</span>
+                <span class="stat-label">Giorni di piano</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">5</span>
+                <span class="stat-label">Pasti/giorno</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">±50</span>
+                <span class="stat-label">kcal precise</span>
+            </div>
+        </div>
+    </main>
+
+    <section class="how-it-works">
+        <h2 class="section-title">Come Funziona</h2>
+        <div class="steps-grid">
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <h3>Registrati</h3>
+                <p>Inserisci i tuoi dati: peso, altezza, età, sesso e livello di attività fisica.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <h3>Calcola il tuo BMI</h3>
+                <p>Scopri subito se sei sottopeso, normopeso o sovrappeso con il nostro calcolatore.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <h3>Scegli l'Obiettivo</h3>
+                <p>Seleziona dimagrire o massa muscolare. Le calorie si adattano al tuo stile di vita.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">4</div>
+                <h3>Piano Giornaliero</h3>
+                <p>Ricevi un piano preciso con colazione, pranzo, cena e spuntini. Domenica è sgarro!</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <h2 class="section-title">Calcola il tuo BMI</h2>
+        <div class="feature-card">
+            <div class="bmi-calculator">
+                <div class="bmi-inputs">
+                    <div class="input-group">
+                        <label for="bmi-weight">Peso (kg)</label>
+                        <input type="number" id="bmi-weight" placeholder="70" min="30" max="300">
+                    </div>
+                    <div class="input-group">
+                        <label for="bmi-height">Altezza (cm)</label>
+                        <input type="number" id="bmi-height" placeholder="175" min="100" max="250">
+                    </div>
+                </div>
+                <button class="btn-primary" id="calc-bmi-btn">Calcola BMI</button>
+                <div class="bmi-result" id="bmi-result" style="display: none;">
+                    <div class="bmi-value">Il tuo BMI: <strong id="bmi-value-num">--</strong></div>
+                    <div class="bmi-category" id="bmi-category">--</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>NutriPlan</h4>
+                    <p>Il tuo piano alimentare personalizzato per raggiungere i tuoi obiettivi di salute e benessere.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Link Rapidi</h4>
+                    <ul>
+                        <li><a href="/dashboard">Dashboard</a></li>
+                        <li><a href="/register">Registrati</a></li>
+                        <li><a href="/tips">Consigli</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Risorse</h4>
+                    <ul>
+                        <li><a href="https://www.who.int/health-topics/nutrition" target="_blank" rel="noopener">OMS Nutrizione</a></li>
+                        <li><a href="https://www.siprec.it/" target="_blank" rel="noopener">SIPREC</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Legale</h4>
+                    <ul>
+                        <li><a href="#">Informativa Privacy</a></li>
+                        <li><a href="#">Termini di Servizio</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>NutriPlan - Progetto Scolastico | <a href="https://sdgs.un.org/goals/goal3" target="_blank" rel="noopener">Agenda 2030 - Obiettivo 3: Salute e Benessere</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/js/main.js"></script>
+    <script>
+        document.getElementById('calc-bmi-btn')?.addEventListener('click', function() {
+            const weight = parseFloat(document.getElementById('bmi-weight').value);
+            const height = parseFloat(document.getElementById('bmi-height').value);
+
+            if (!weight || !height || weight <= 0 || height <= 0) {
+                return;
+            }
+
+            const bmi = weight / Math.pow(height / 100, 2);
+            const bmiFixed = bmi.toFixed(1);
+
+            let category = '';
+            if (bmi < 18.5) category = 'Sottopeso';
+            else if (bmi < 25) category = 'Normopeso';
+            else if (bmi < 30) category = 'Sovrappeso';
+            else category = 'Obeso';
+
+            document.getElementById('bmi-value-num').textContent = bmiFixed;
+            document.getElementById('bmi-category').textContent = category;
+            document.getElementById('bmi-result').style.display = 'block';
+        });
+    </script>
+</body>
+</html>

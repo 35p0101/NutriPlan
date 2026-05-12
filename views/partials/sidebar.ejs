@@ -1,0 +1,85 @@
+<nav class="sidebar">
+    <div class="mobile-header">
+        <a href="/" class="logo-link">
+            <img src="/img/logo.svg" alt="NutriPlan" class="logo">
+            <span class="logo-text">NutriPlan</span>
+        </a>
+        <button class="mobile-toggle" id="sidebarClose" aria-label="Chiudi menu">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+    </div>
+
+    <div class="sidebar-header sidebar-desktop-only">
+        <a href="/" class="logo-link">
+            <img src="/img/logo.svg" alt="NutriPlan" class="logo">
+            <span class="logo-text">NutriPlan</span>
+        </a>
+    </div>
+
+    <div class="sidebar-user">
+        <div class="user-avatar">
+            <%= user.username.charAt(0).toUpperCase() %>
+        </div>
+        <div class="user-info">
+            <span class="user-name"><%= user.username %></span>
+            <span class="user-email"><%= user.email %></span>
+        </div>
+    </div>
+
+    <ul class="sidebar-menu">
+        <li>
+            <a href="/dashboard" class="menu-item">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="14" width="7" height="7"></rect>
+                    <rect x="3" y="14" width="7" height="7"></rect>
+                </svg>
+                <span>Dashboard</span>
+            </a>
+        </li>
+        <li>
+            <a href="/diet/step1" class="menu-item">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                    <path d="M2 17l10 5 10-5"></path>
+                    <path d="M2 12l10 5 10-5"></path>
+                </svg>
+                <span>Nuovo Piano</span>
+            </a>
+        </li>
+        <li>
+            <a href="/tips" class="menu-item">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+                <span>Consigli</span>
+            </a>
+        </li>
+        <li>
+            <a href="/profile" class="menu-item">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <span>Profilo</span>
+            </a>
+        </li>
+    </ul>
+
+    <div class="sidebar-footer">
+        <a href="/logout" class="logout-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <polyline points="16 17 21 12 16 7"></polyline>
+                <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+            <span>Esci</span>
+        </a>
+    </div>
+</nav>

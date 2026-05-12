@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrati - NutriPlan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/auth.css">
+    <link rel="stylesheet" href="/css/register.css">
+</head>
+<body class="auth-page">
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-logo">
+                <img src="/img/logo.svg" alt="NutriPlan" class="logo-img">
+                <span>NutriPlan</span>
+            </a>
+            <div class="nav-links">
+                <a href="/login" class="btn-primary">Accedi</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>Crea il tuo account</h1>
+                <p>Inizia il tuo percorso verso una vita più sana</p>
+            </div>
+
+            <div id="formError" class="alert alert-error" style="display: none;"></div>
+
+            <% if (error) { %>
+                <div class="alert alert-error"><%= error %></div>
+            <% } %>
+
+            <form action="/register" method="POST" class="auth-form" id="registerForm" novalidate>
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" placeholder="MarioRossi" autocomplete="username">
+                        <span class="field-error" id="username-error"></span>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="mario@esempio.com" autocomplete="email">
+                        <span class="field-error" id="email-error"></span>
+                    </div>
+                </div>
+
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" placeholder="Min. 6 caratteri" autocomplete="new-password" minlength="6">
+                        <span class="field-error" id="password-error"></span>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="password_confirm">Conferma Password</label>
+                        <input type="password" id="password_confirm" name="password_confirm" placeholder="Ripeti la password" autocomplete="new-password">
+                        <span class="field-error" id="password_confirm-error"></span>
+                    </div>
+                </div>
+
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="dob">Data di Nascita (GG / MM / AAAA)</label>
+                        <div class="custom-date-picker">
+                            <input type="text" id="dob-display" placeholder="GG / MM / AAAA" maxlength="10">
+                            <input type="hidden" id="dob" name="dob">
+                            <button type="button" class="date-picker-btn" id="dob-btn">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                                </svg>
+                            </button>
+                        </div>
+                        <span class="field-error" id="dob-error"></span>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="sex">Sesso</label>
+                        <select id="sex" name="sex">
+                            <option value="">Seleziona</option>
+                            <option value="M">Maschio</option>
+                            <option value="F">Femmina</option>
+                        </select>
+                        <span class="field-error" id="sex-error"></span>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary btn-full">Crea Account</button>
+            </form>
+
+            <div class="auth-footer">
+                <p>Hai già un account? <a href="/login">Accedi</a></p>
+            </div>
+        </div>
+    </main>
+
+    <div class="date-picker-modal" id="datePickerModal">
+        <div class="date-picker-overlay"></div>
+        <div class="date-picker-content">
+            <div class="date-picker-header">
+                <button type="button" class="dp-nav" id="dp-prev-month">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                <div class="dp-month-year">
+                    <select id="dp-month"></select>
+                    <select id="dp-year"></select>
+                </div>
+                <button type="button" class="dp-nav" id="dp-next-month">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
+            </div>
+            <div class="date-picker-weekdays">
+                <span>L</span><span>M</span><span>M</span><span>G</span><span>V</span><span>S</span><span>D</span>
+            </div>
+            <div class="date-picker-days" id="dp-days"></div>
+        </div>
+    </div>
+
+    <script src="/js/main.js"></script>
+    <script src="/js/register.js"></script>
+</body>
+</html>

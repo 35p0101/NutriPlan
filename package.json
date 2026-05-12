@@ -1,0 +1,26 @@
+{
+  "name": "nutriplan",
+  "version": "1.0.0",
+  "description": "NutriPlan - Piano alimentare personalizzato con TheMealDB",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": ["nutrition", "meal-plan", "themmealdb", "express", "sqlite"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "js2xmlparser": "^4.0.2",
+    "jsonwebtoken": "^9.0.2",
+    "node-fetch": "^2.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}

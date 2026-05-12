@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profilo - NutriPlan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body>
+    <div class="mobile-topbar" id="mobileTopbar">
+        <button class="hamburger-btn" id="sidebarToggle" aria-label="Apri menu">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        </button>
+        <a href="/" class="topbar-logo">
+            <img src="/img/logo.svg" alt="NutriPlan" class="topbar-logo-img">
+            <span class="topbar-logo-text">NutriPlan</span>
+        </a>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <%- include('partials/sidebar') %>
+
+    <main class="main-content">
+        <div class="profile-header">
+            <div class="profile-avatar">
+                <%= user.username.charAt(0).toUpperCase() %>
+            </div>
+            <div class="profile-info">
+                <h1><%= user.username %></h1>
+                <p><%= user.email %></p>
+            </div>
+        </div>
+
+        <% if (error) { %>
+            <div class="alert alert-error"><%= error %></div>
+        <% } %>
+
+        <div class="profile-grid">
+            <div class="box">
+                <h3>Dati Personali</h3>
+                <div class="box-content">
+                    <div class="info-row">
+                        <span class="info-label">Username</span>
+                        <span class="info-value"><%= user.username %></span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Email</span>
+                        <span class="info-value"><%= user.email %></span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Data di nascita</span>
+                        <span class="info-value"><%= user.dob %></span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Età</span>
+                        <span class="info-value"><%= user.age %> anni</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Sesso</span>
+                        <span class="info-value"><%= user.sex === 'M' ? 'Maschio' : 'Femmina' %></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box">
+                <h3>Dati Obiettivo</h3>
+                <div class="box-content">
+                    <% if (diet) { %>
+                        <div class="info-row">
+                            <span class="info-label">Obiettivo</span>
+                            <span class="info-value goal-badge goal-<%= diet.goal %>"><%= diet.goal === 'slim' ? 'Dimagrimento' : 'Massa Muscolare' %></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">BMI</span>
+                            <span class="info-value">
+                                <%= diet.bmi %>
+                                <% if (bmiCategory) { %>
+                                    <span class="bmi-category bmi-<%= bmiCategory.toLowerCase().replace(' ', '-') %>"><%= bmiCategory %></span>
+                                <% } %>
+                            </span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Peso attuale</span>
+                            <span class="info-value"><%= diet.weight %> kg</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Altezza</span>
+                            <span class="info-value"><%= diet.height %> cm</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Peso obiettivo</span>
+                            <span class="info-value"><%= diet.target_weight %> kg</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Calorie giornaliere</span>
+                            <span class="info-value highlight"><%= diet.calories %> kcal</span>
+                        </div>
+                    <% } else { %>
+                        <p class="no-data">Nessun obiettivo definito. <a href="/diet/step1">Crea il tuo piano</a></p>
+                    <% } %>
+                </div>
+            </div>
+
+            <div class="box">
+                <h3>Macronutrienti Giornalieri</h3>
+                <div class="box-content">
+                    <% if (diet) { %>
+                        <div class="macro-progress-list">
+                            <div class="macro-progress-item">
+                                <div class="macro-progress-header">
+                                    <span>Proteine</span>
+                                    <span><%= diet.protein_g %>g</span>
+                                </div>
+                                <div class="macro-progress-bar">
+                                    <div class="macro-progress-fill protein" style="width: <%= Math.min(100, (diet.protein_g / 200) * 100) %>%;"></div>
+                                </div>
+                            </div>
+                            <div class="macro-progress-item">
+                                <div class="macro-progress-header">
+                                    <span>Carboidrati</span>
+                                    <span><%= diet.carbs_g %>g</span>
+                                </div>
+                                <div class="macro-progress-bar">
+                                    <div class="macro-progress-fill carbs" style="width: <%= Math.min(100, (diet.carbs_g / 400) * 100) %>%;"></div>
+                                </div>
+                            </div>
+                            <div class="macro-progress-item">
+                                <div class="macro-progress-header">
+                                    <span>Grassi</span>
+                                    <span><%= diet.fat_g %>g</span>
+                                </div>
+                                <div class="macro-progress-bar">
+                                    <div class="macro-progress-fill fat" style="width: <%= Math.min(100, (diet.fat_g / 100) * 100) %>%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    <% } else { %>
+                        <p class="no-data">Nessun dato disponibile.</p>
+                    <% } %>
+                </div>
+            </div>
+
+            <div class="box">
+                <h3>Account</h3>
+                <div class="box-content">
+                    <div class="info-row">
+                        <span class="info-label">Membro dal</span>
+                        <span class="info-value"><%= user.created_at ? new Date(user.created_at).toLocaleDateString('it-IT') : 'N/A' %></span>
+                    </div>
+                    <div class="account-actions">
+                        <a href="/diet/step1" class="btn-primary btn-sm">Nuovo Piano</a>
+                        <a href="/logout" class="btn-ghost btn-sm">Esci</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>

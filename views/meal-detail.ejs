@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= meal.nome %> - NutriPlan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <style>
+        body {
+            background: var(--bg-primary);
+        }
+        .meal-detail-page {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 6rem 2rem 4rem;
+        }
+        .meal-detail-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius-card);
+            overflow: hidden;
+        }
+        .meal-detail-header {
+            padding: 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .meal-detail-header h1 {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            color: var(--text-primary);
+            margin-bottom: 1.25rem;
+        }
+        .meal-meta {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        .meta-item svg {
+            color: var(--green-soft);
+        }
+        .meta-item strong {
+            color: var(--text-primary);
+        }
+        .difficulty-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .difficulty-facile {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--green-soft);
+        }
+        .difficulty-media {
+            background: rgba(245, 158, 11, 0.15);
+            color: #f59e0b;
+        }
+        .difficulty-difficile {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+        }
+        .nutrition-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+        }
+        .nutrition-card {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.25rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .nutrition-value {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+        .nutrition-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .nutrition-card.calories .nutrition-value { color: var(--green-soft); }
+        .nutrition-card.protein .nutrition-value { color: var(--blue-accent); }
+        .nutrition-card.carbs .nutrition-value { color: var(--gold); }
+        .nutrition-card.fat .nutrition-value { color: var(--purple-accent); }
+        @media (max-width: 600px) {
+            .nutrition-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        .meal-detail-body {
+            padding: 2rem;
+        }
+        .meal-section {
+            margin-bottom: 2.5rem;
+        }
+        .meal-section:last-child {
+            margin-bottom: 0;
+        }
+        .meal-section h2 {
+            font-family: var(--font-heading);
+            font-size: 1.25rem;
+            color: var(--text-primary);
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .meal-section h2 svg {
+            color: var(--green-soft);
+        }
+        .ingredients-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 0.75rem;
+        }
+        .ingredient-chip {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.875rem 1rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .ingredient-chip::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            background: var(--green-soft);
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .preparation-box {
+            background: var(--bg-secondary);
+            padding: 1.75rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--green-soft);
+            line-height: 1.9;
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+            margin-bottom: 2rem;
+            padding: 0.75rem 1.25rem;
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-btn);
+        }
+        .back-link:hover {
+            color: var(--green-soft);
+            border-color: rgba(123, 219, 142, 0.3);
+        }
+        @media (max-width: 600px) {
+            .meal-detail-page {
+                padding: 5rem 1rem 3rem;
+            }
+            .meal-detail-header {
+                padding: 1.5rem;
+            }
+            .meal-detail-header h1 {
+                font-size: 1.5rem;
+            }
+            .meal-detail-body {
+                padding: 1.5rem;
+            }
+            .meal-meta {
+                gap: 0.75rem;
+            }
+            .ingredients-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <%- include('partials/header') %>
+
+    <main class="meal-detail-page">
+        <a href="/dashboard" class="back-link">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            Torna alla Dashboard
+        </a>
+
+        <div class="meal-detail-card">
+            <div class="meal-detail-header">
+                <h1><%= meal.nome %></h1>
+                <div class="meal-meta">
+                    <div class="meta-item">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12 6 12 12 16 14"/>
+                        </svg>
+                        <span><strong><%= meal.tempo %></strong></span>
+                    </div>
+                    <div class="meta-item">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+                        </svg>
+                        <span class="difficulty-badge difficulty-<%= meal.difficolta.toLowerCase().replace('à', 'a') %>"><%= meal.difficolta %></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="meal-detail-body">
+                <% if (meal.calorie !== undefined) { %>
+                <div class="nutrition-grid">
+                    <div class="nutrition-card calories">
+                        <span class="nutrition-value"><%= meal.calorie %></span>
+                        <span class="nutrition-label">Calorie</span>
+                    </div>
+                    <div class="nutrition-card protein">
+                        <span class="nutrition-value"><%= meal.proteine %>g</span>
+                        <span class="nutrition-label">Proteine</span>
+                    </div>
+                    <div class="nutrition-card carbs">
+                        <span class="nutrition-value"><%= meal.carboidrati %>g</span>
+                        <span class="nutrition-label">Carboidrati</span>
+                    </div>
+                    <div class="nutrition-card fat">
+                        <span class="nutrition-value"><%= meal.grassi %>g</span>
+                        <span class="nutrition-label">Grassi</span>
+                    </div>
+                </div>
+                <% } %>
+
+                <div class="meal-section">
+                    <h2>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M6 13.87A4 4 0 0 1 7.41 6a5.11 5.11 0 0 1 1.05-1.54 5 5 0 0 1 7.08 0A5.11 5.11 0 0 1 16.59 6 4 4 0 0 1 18 13.87V21H6Z"/>
+                            <line x1="6" y1="17" x2="18" y2="17"/>
+                        </svg>
+                        Ingredienti
+                    </h2>
+                    <div class="ingredients-grid">
+                        <% meal.ingredienti.forEach(function(ingrediente) { %>
+                            <div class="ingredient-chip"><%= ingrediente %></div>
+                        <% }); %>
+                    </div>
+                </div>
+
+                <div class="meal-section">
+                    <h2>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                        </svg>
+                        Preparazione
+                    </h2>
+                    <p class="preparation-box"><%= meal.preparazione %></p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <%- include('partials/footer') %>
+</body>
+</html>

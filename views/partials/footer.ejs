@@ -1,0 +1,44 @@
+<footer class="footer">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>NutriPlan</h4>
+                    <p>Il tuo piano alimentare personalizzato per raggiungere i tuoi obiettivi di salute e benessere.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Link Rapidi</h4>
+                    <ul>
+                        <li><a href="/dashboard">Dashboard</a></li>
+                        <li><a href="/diet/step1">Nuovo Piano</a></li>
+                        <li><a href="/tips">Consigli</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Risorse</h4>
+                    <ul>
+                        <li><a href="https://www.who.int/health-topics/nutrition" target="_blank" rel="noopener">OMS Nutrizione</a></li>
+                        <li><a href="https://www.siprec.it/" target="_blank" rel="noopener">SIPREC</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Legale</h4>
+                    <ul>
+                        <li><a href="#">Informativa Privacy</a></li>
+                        <li><a href="#">Termini di Servizio</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>NutriPlan - Progetto Scolastico | <a href="https://sdgs.un.org/goals/goal3" target="_blank" rel="noopener">Agenda 2030 - Obiettivo 3: Salute e Benessere</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/js/main.js"></script>
+    <% if (typeof extraJs !== 'undefined') { %>
+        <% extraJs.forEach(js => { %>
+            <script src="/js/<%= js %>.js"></script>
+        <% }); %>
+    <% } %>
+</body>
+</html>

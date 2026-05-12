@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step 1 - NutriPlan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/diet.css">
+</head>
+<body class="auth-page">
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-logo">
+                <img src="/img/logo.svg" alt="NutriPlan" class="logo-img">
+                <span>NutriPlan</span>
+            </a>
+            <div class="nav-links">
+                <a href="/dashboard" class="btn-ghost">Dashboard</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="diet-container">
+        <div class="diet-card">
+            <div class="diet-header">
+                <h1>Scegli il tuo Obiettivo</h1>
+                <p>Cosa vuoi ottenere con il tuo piano alimentare?</p>
+            </div>
+
+            <% if (error) { %>
+                <div class="alert alert-error"><%= error %></div>
+            <% } %>
+
+            <div class="goal-cards">
+                <a href="/diet/step2?goal=slim" class="goal-card">
+                    <div class="goal-icon goal-icon-slim">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2z"/>
+                        </svg>
+                    </div>
+                    <h2>Dimagrimento</h2>
+                    <p>Perdi peso in modo sano con un deficit calorico moderato. Ideale per chi vuole ridurre la massa grassa mantenendo la massa muscolare.</p>
+                    <ul class="goal-features">
+                        <li>Deficit calorico di 400 kcal</li>
+                        <li>Proteine alte per preservare i muscoli</li>
+                        <li>Pasti sazianti e nutrienti</li>
+                    </ul>
+                    <span class="btn-primary goal-btn">Scegli Dimagrimento</span>
+                </a>
+
+                <a href="/diet/step2?goal=muscle" class="goal-card">
+                    <div class="goal-icon goal-icon-muscle">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M6.5 6.5L17.5 17.5M6.5 17.5L17.5 6.5"/>
+                            <circle cx="12" cy="12" r="9"/>
+                        </svg>
+                    </div>
+                    <h2>Massa Muscolare</h2>
+                    <p>Aumenta la massa muscolare con un surplus calorico controllato. Perfetto per chi vuole costruire muscoli e forza.</p>
+                    <ul class="goal-features">
+                        <li>Surplus calorico di 250 kcal</li>
+                        <li>Carboidrati alti per energia</li>
+                        <li>Proteine ottimizzate per la crescita</li>
+                    </ul>
+                    <span class="btn-primary goal-btn">Scegli Massa Muscolare</span>
+                </a>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

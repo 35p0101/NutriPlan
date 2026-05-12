@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - NutriPlan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body>
+    <div class="mobile-topbar" id="mobileTopbar">
+        <button class="hamburger-btn" id="sidebarToggle" aria-label="Apri menu">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        </button>
+        <a href="/" class="topbar-logo">
+            <img src="/img/logo.svg" alt="NutriPlan" class="topbar-logo-img">
+            <span class="topbar-logo-text">NutriPlan</span>
+        </a>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <%- include('partials/sidebar') %>
+
+    <main class="main-content">
+        <div class="dashboard-header">
+            <h1>Benvenuto, <%= user.username %>!</h1>
+            <p>Ecco il tuo piano alimentare personalizzato</p>
+        </div>
+
+        <% if (error) { %>
+            <div class="alert alert-error"><%= error %></div>
+        <% } %>
+
+        <% if (!diet || !planData) { %>
+            <div class="empty-state">
+                <h2>Non hai ancora un piano alimentare</h2>
+                <p>Inizia il tuo percorso creando il tuo primo piano personalizzato.</p>
+                <a href="/diet/step1" class="btn-primary">Crea il tuo Piano</a>
+            </div>
+        <% } else { %>
+            <div class="dashboard-top-row">
+                <div class="box account-box">
+                    <h3>Account</h3>
+                    <div class="box-content">
+                        <div class="info-row">
+                            <span class="info-label">Username</span>
+                            <span class="info-value"><%= user.username %></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Email</span>
+                            <span class="info-value"><%= user.email %></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Età</span>
+                            <span class="info-value"><%= user.age %> anni</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Sesso</span>
+                            <span class="info-value"><%= user.sex === 'M' ? 'Maschio' : 'Femmina' %></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="box goal-box">
+                    <h3>Il tuo Obiettivo</h3>
+                    <div class="box-content">
+                        <div class="goal-display">
+                            <span class="goal-badge goal-<%= diet.goal %>"><%= diet.goal === 'slim' ? 'Dimagrimento' : 'Massa Muscolare' %></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">BMI</span>
+                            <span class="info-value"><%= diet.bmi %></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Calorie giornaliere</span>
+                            <span class="info-value highlight"><%= diet.calories %> kcal</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Peso obiettivo</span>
+                            <span class="info-value"><%= diet.target_weight %> kg</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box plan-box">
+                <div class="box-header">
+                    <h3>Piano Settimanale</h3>
+                    <button class="btn-ghost btn-sm" id="regenerateBtn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M23 4v6h-6M1 20v-6h6"/>
+                            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+                        </svg>
+                        Rigenera
+                    </button>
+                </div>
+                <div class="box-content">
+                    <div class="meal-plan-grid" id="mealPlanGrid" data-target-calories="<%= diet.calories %>">
+                        <% const giorni = ['Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato', 'Domenica']; %>
+                        <% const todayIndex = new Date().getDay(); %>
+                        <% const dayMap = { 0: 6, 1: 0, 2: 1, 3: 2, 4: 3, 5: 4, 6: 5 }; %>
+
+                        <% giorni.forEach((giorno, i) => { %>
+                            <% const isToday = dayMap[todayIndex] === i; %>
+                            <% const isSgarro = planData[giorno]?.isSgarro; %>
+                            <% 
+                                const day = planData[giorno];
+                                const colazioneCal = day?.colazione?.calorie || 0;
+                                const spuntino1Cal = day?.spuntino1?.calorie || 0;
+                                const pranzoCal = day?.pranzo?.calorie || 0;
+                                const spuntino2Cal = day?.spuntino2?.calorie || 0;
+                                const spuntino3Cal = day?.spuntino3?.calorie || 0;
+                                const cenaCal = day?.cena?.calorie || 0;
+                                const totalCal = colazioneCal + spuntino1Cal + pranzoCal + spuntino2Cal + spuntino3Cal + cenaCal;
+                                const calDiff = diet.calories - totalCal;
+                            %>
+                            <div class="day-column <%= isToday ? 'today' : '' %> <%= isSgarro ? 'day-sgarro' : '' %>">
+                                <div class="day-header"><%= giorno %><% if (isToday) { %> <span class="today-badge">Oggi</span><% } %><% if (isSgarro) { %> <span class="sgarro-badge">Sgarro</span><% } %></div>
+                                <div class="day-meals">
+                                    <div class="meal-slot">
+                                        <span class="meal-type">Colazione</span>
+                                        <% if (planData[giorno]?.colazione?.nome) { %>
+                                            <a href="/meal/<%= encodeURIComponent(planData[giorno].colazione.nome) %>" class="meal-link"><%= planData[giorno].colazione.nome %></a>
+                                        <% } else { %>
+                                            <span class="meal-name">N/A</span>
+                                        <% } %>
+                                    </div>
+                                    <% if (planData[giorno]?.spuntino1?.nome) { %>
+                                    <div class="meal-slot snack">
+                                        <span class="meal-type">Spuntino</span>
+                                        <a href="/meal/<%= encodeURIComponent(planData[giorno].spuntino1.nome) %>" class="meal-link"><%= planData[giorno].spuntino1.nome %></a>
+                                    </div>
+                                    <% } %>
+                                    <div class="meal-slot">
+                                        <span class="meal-type">Pranzo</span>
+                                        <% if (planData[giorno]?.pranzo?.nome) { %>
+                                            <a href="/meal/<%= encodeURIComponent(planData[giorno].pranzo.nome) %>" class="meal-link"><%= planData[giorno].pranzo.nome %></a>
+                                        <% } else { %>
+                                            <span class="meal-name">N/A</span>
+                                        <% } %>
+                                    </div>
+                                    <% if (planData[giorno]?.spuntino2?.nome) { %>
+                                    <div class="meal-slot snack">
+                                        <span class="meal-type">Spuntino</span>
+                                        <a href="/meal/<%= encodeURIComponent(planData[giorno].spuntino2.nome) %>" class="meal-link"><%= planData[giorno].spuntino2.nome %></a>
+                                    </div>
+                                    <% } %>
+                                    <% if (planData[giorno]?.spuntino3?.nome) { %>
+                                    <div class="meal-slot snack">
+                                        <span class="meal-type">Spuntino</span>
+                                        <a href="/meal/<%= encodeURIComponent(planData[giorno].spuntino3.nome) %>" class="meal-link"><%= planData[giorno].spuntino3.nome %></a>
+                                    </div>
+                                    <% } %>
+                                    <div class="meal-slot">
+                                        <span class="meal-type">Cena</span>
+                                        <% if (planData[giorno]?.cena?.nome) { %>
+                                            <a href="/meal/<%= encodeURIComponent(planData[giorno].cena.nome) %>" class="meal-link"><%= planData[giorno].cena.nome %></a>
+                                        <% } else { %>
+                                            <span class="meal-name">N/A</span>
+                                        <% } %>
+                                    </div>
+                                    <% if (!isSgarro) { %>
+                                    <div class="day-calories <%= Math.abs(calDiff) < 200 ? 'calories-ok' : (calDiff > 0 ? 'calories-low' : 'calories-high') %>">
+                                        <span class="calories-total"><%= totalCal %> kcal</span>
+                                        <span class="calories-target">Target: <%= diet.calories %></span>
+                                    </div>
+                                    <% } %>
+                                </div>
+                            </div>
+                        <% }); %>
+                    </div>
+                </div>
+            </div>
+
+            <div class="macros-summary">
+                <div class="macro-summary-item">
+                    <span class="macro-label">Proteine</span>
+                    <span class="macro-value"><%= diet.protein_g %>g/die</span>
+                </div>
+                <div class="macro-summary-item">
+                    <span class="macro-label">Carboidrati</span>
+                    <span class="macro-value"><%= diet.carbs_g %>g/die</span>
+                </div>
+                <div class="macro-summary-item">
+                    <span class="macro-label">Grassi</span>
+                    <span class="macro-value"><%= diet.fat_g %>g/die</span>
+                </div>
+            </div>
+        <% } %>
+    </main>
+
+    <script src="/js/main.js"></script>
+    <script src="/js/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step 3 - NutriPlan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/diet.css">
+</head>
+<body class="auth-page">
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-logo">
+                <img src="/img/logo.svg" alt="NutriPlan" class="logo-img">
+                <span>NutriPlan</span>
+            </a>
+            <div class="nav-links">
+                <a href="/dashboard" class="btn-ghost">Dashboard</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="diet-container">
+        <div class="diet-card diet-card-summary">
+            <div class="diet-header">
+                <h1>Riepilogo del tuo Piano</h1>
+                <p>Ecco i valori calcolati per il tuo obiettivo</p>
+            </div>
+
+            <% if (error) { %>
+                <div class="alert alert-error"><%= error %></div>
+            <% } %>
+
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <span class="summary-label">Obiettivo</span>
+                    <span class="summary-value"><%= goal === 'slim' ? 'Dimagrimento' : 'Massa Muscolare' %></span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">BMI</span>
+                    <span class="summary-value"><%= bmi %></span>
+                    <span class="summary-sub"><%= bmiCategory %></span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">Fabbisogno Calorico</span>
+                    <span class="summary-value highlight"><%= calories %> kcal</span>
+                </div>
+            </div>
+
+            <div class="bmi-bar-container">
+                <div class="bmi-bar-labels">
+                    <span>Sottopeso</span>
+                    <span>Normopeso</span>
+                    <span>Sovrappeso</span>
+                    <span>Obeso</span>
+                </div>
+                <div class="bmi-bar">
+                    <div class="bmi-bar-fill" style="width: <%= bmiPercent %>%;"></div>
+                    <div class="bmi-bar-marker" style="left: <%= bmiPercent %>%;"></div>
+                </div>
+                <div class="bmi-bar-values">
+                    <span>10</span>
+                    <span>40</span>
+                </div>
+            </div>
+
+            <div class="macros-grid">
+                <div class="macro-card macro-protein">
+                    <span class="macro-value"><%= protein_g %>g</span>
+                    <span class="macro-label">Proteine</span>
+                    <span class="macro-percent"><%= goal === 'slim' ? '35%' : '30%' %></span>
+                </div>
+                <div class="macro-card macro-carbs">
+                    <span class="macro-value"><%= carbs_g %>g</span>
+                    <span class="macro-label">Carboidrati</span>
+                    <span class="macro-percent"><%= goal === 'slim' ? '40%' : '45%' %></span>
+                </div>
+                <div class="macro-card macro-fat">
+                    <span class="macro-value"><%= fat_g %>g</span>
+                    <span class="macro-label">Grassi</span>
+                    <span class="macro-percent">25%</span>
+                </div>
+            </div>
+
+            <div class="ideal-weight-info">
+                <p><strong>Peso ideale:</strong> <%= idealMin %> - <%= idealMax %> kg</p>
+                <p><strong>Peso obiettivo:</strong> <%= targetWeight %> kg</p>
+            </div>
+
+            <form action="/diet/generate" method="POST" class="generate-form" id="generateForm">
+                <input type="hidden" name="goal" value="<%= goal %>">
+                <input type="hidden" name="weight" value="<%= weight %>">
+                <input type="hidden" name="height" value="<%= height %>">
+                <input type="hidden" name="activity_multiplier" value="<%= activityMultiplier %>">
+
+                <div class="form-actions">
+                    <a href="/diet/step2?goal=<%= goal %>" class="btn-ghost">Indietro</a>
+                    <button type="submit" class="btn-primary btn-generate" id="generateBtn">
+                        <span class="btn-text">Genera il mio Piano</span>
+                        <span class="spinner"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        document.getElementById('generateForm')?.addEventListener('submit', function(e) {
+            const btn = document.getElementById('generateBtn');
+            btn.classList.add('loading');
+            btn.disabled = true;
+        });
+    </script>
+</body>
+</html>
