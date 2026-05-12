@@ -1,4 +1,5 @@
 const DietModel = require('../models/DietModel');
+const UserModel = require('../models/UserModel');
 const calc = require('../services/calculations');
 const MealPlanModel = require('../models/MealPlanModel');
 const { getMealDetail } = require('../services/mealDbService');
@@ -40,12 +41,36 @@ module.exports = {
 
     async showProfile(req, res) {
         try {
+            const currentUser = await UserModel.findById(req.user.id);
             const diet = await DietModel.findLatestByUser(req.user.id);
             const bmiCategory = diet ? calc.getBMICategory(diet.bmi) : null;
-            res.render('profile', { user: req.user, diet, bmiCategory, error: null });
+            const error = req.query.error || null;
+            const success = req.query.success || null;
+            res.render('profile', { user: currentUser, diet, bmiCategory, error, success });
         } catch (err) {
             console.error('Profile error:', err);
-            res.render('profile', { user: req.user, diet: null, bmiCategory: null, error: 'Errore nel caricamento del profilo' });
+            res.render('profile', { user: req.user, diet: null, bmiCategory: null, error: 'Errore nel caricamento del profilo', success: null });
+        }
+    },
+
+    async updateProfilePicture(req, res) {
+        try {
+            const { profile_picture_base64 } = req.body;
+            
+            let profilePicture = null;
+            
+            if (profile_picture_base64 && profile_picture_base64.startsWith('data:image')) {
+                profilePicture = profile_picture_base64;
+            } else {
+                return res.redirect('/profile?error=Nessuna immagine ricevuta');
+            }
+            
+            await UserModel.updateProfilePicture(req.user.id, profilePicture);
+            
+            res.redirect('/profile?success=Foto profilo aggiornata');
+        } catch (err) {
+            console.error('Update picture error:', err);
+            res.redirect('/profile?error=Errore durante aggiornamento foto');
         }
     },
 

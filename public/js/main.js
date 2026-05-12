@@ -65,6 +65,45 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     });
+
+    const profilePicInput = document.getElementById('profile_picture');
+    const profilePicBase64 = document.getElementById('profile_picture_base64');
+    const profilePicPreview = document.querySelector('.profile-pic-preview');
+    const profileForm = document.querySelector('.profile-update-form');
+    
+    if (profilePicInput && profilePicBase64) {
+        profilePicInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                if (file.size > 500 * 1024) {
+                    alert('File troppo grande. Max 500KB.');
+                    this.value = '';
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    profilePicBase64.value = event.target.result;
+                    if (profilePicPreview) {
+                        profilePicPreview.innerHTML = `<img src="${event.target.result}" alt="Profile preview">`;
+                    }
+                };
+                reader.onerror = function() {
+                    alert('Errore nella lettura del file');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        if (profileForm) {
+            profileForm.addEventListener('submit', function(e) {
+                if (!profilePicBase64.value) {
+                    e.preventDefault();
+                    alert('Seleziona una foto prima di salvare');
+                }
+            });
+        }
+    }
 });
 
 function showMessage(message, type = 'info') {

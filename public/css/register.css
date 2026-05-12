@@ -217,3 +217,46 @@ select:focus {
 .input-error-custom {
     border-color: #f87171 !important;
 }
+
+.profile-picture-upload {
+    margin-bottom: 1rem;
+}
+
+.profile-pic-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.profile-pic-preview {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--bg-secondary);
+    border: 2px dashed rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.profile-pic-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-pic-preview svg {
+    color: var(--text-muted);
+}
+
+.profile-picture-upload input[type="file"] {
+    display: none;
+}
+
+.field-hint {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    display: block;
+    margin-top: 0.25rem;
+}

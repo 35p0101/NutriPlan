@@ -10,6 +10,7 @@ router.get('/', optional, (req, res) => {
 
 router.get('/dashboard', authRequired, dashboardController.showDashboard);
 router.get('/profile', authRequired, dashboardController.showProfile);
+router.post('/profile/update-picture', authRequired, dashboardController.updateProfilePicture);
 router.get('/tips', authRequired, dashboardController.showTips);
 router.get('/meal/:name', authRequired, dashboardController.showMealDetail);
 

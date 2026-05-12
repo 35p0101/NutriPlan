@@ -13,7 +13,7 @@ module.exports = {
 
     async register(req, res) {
         try {
-            const { username, email, password, password_confirm, dob, sex } = req.body;
+            const { username, email, password, password_confirm, dob, sex, profile_picture_base64 } = req.body;
 
             if (!username || !email || !password || !password_confirm || !dob || !sex) {
                 return res.render('register', { user: null, error: 'Tutti i campi sono obbligatori' });
@@ -49,7 +49,8 @@ module.exports = {
                 return res.render('register', { user: null, error: 'Età non valida (devi avere tra i 13 e i 120 anni)' });
             }
 
-            const result = await UserModel.create({ username, email, password, dob, age, sex });
+            const profilePicture = profile_picture_base64 || null;
+            const result = await UserModel.create({ username, email, password, dob, age, sex, profile_picture: profilePicture });
 
             const token = jwt.sign({ userId: result.lastInsertRowid }, process.env.JWT_SECRET, { expiresIn: '7d' });
             res.cookie('nutriplan_token', token, {

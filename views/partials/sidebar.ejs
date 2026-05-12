@@ -20,9 +20,15 @@
     </div>
 
     <div class="sidebar-user">
-        <div class="user-avatar">
-            <%= user.username.charAt(0).toUpperCase() %>
-        </div>
+        <% if (user.profile_picture) { %>
+            <div class="user-avatar user-avatar-img">
+                <img src="<%= user.profile_picture %>" alt="Profile">
+            </div>
+        <% } else { %>
+            <div class="user-avatar">
+                <%= user.username.charAt(0).toUpperCase() %>
+            </div>
+        <% } %>
         <div class="user-info">
             <span class="user-name"><%= user.username %></span>
             <span class="user-email"><%= user.email %></span>

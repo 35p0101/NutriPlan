@@ -247,7 +247,48 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            form.submit();
+            const profilePicInput = document.getElementById('profile_picture');
+            const profilePicBase64 = document.getElementById('profile_picture_base64');
+            
+            if (profilePicInput && profilePicInput.files.length > 0) {
+                const file = profilePicInput.files[0];
+                const reader = new FileReader();
+                
+                reader.onload = function(event) {
+                    profilePicBase64.value = event.target.result;
+                    form.submit();
+                };
+                
+                reader.onerror = function() {
+                    form.submit();
+                };
+                
+                reader.readAsDataURL(file);
+            } else {
+                form.submit();
+            }
+        });
+    }
+
+    const profilePicInput = document.getElementById('profile_picture');
+    const profilePicPreview = document.getElementById('profilePicPreview');
+    
+    if (profilePicInput && profilePicPreview) {
+        profilePicInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                if (file.size > 500 * 1024) {
+                    alert('File troppo grande. Max 500KB.');
+                    this.value = '';
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    profilePicPreview.innerHTML = `<img src="${event.target.result}" alt="Profile preview">`;
+                };
+                reader.readAsDataURL(file);
+            }
         });
     }
 });

@@ -95,6 +95,22 @@
                     </div>
                 </div>
 
+                <div class="input-group profile-picture-upload">
+                    <label>Foto Profilo (facoltativa)</label>
+                    <div class="profile-pic-container">
+                        <div class="profile-pic-preview" id="profilePicPreview">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                        </div>
+                        <input type="file" id="profile_picture" name="profile_picture" accept="image/jpeg,image/jpg,image/png,image/webp">
+                        <label for="profile_picture" class="btn-secondary btn-sm">Seleziona</label>
+                    </div>
+                    <input type="hidden" id="profile_picture_base64" name="profile_picture_base64">
+                    <span class="field-hint">JPG, PNG o WebP. Max 500KB.</span>
+                </div>
+
                 <button type="submit" class="btn-primary btn-full">Crea Account</button>
             </form>
 

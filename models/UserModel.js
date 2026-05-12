@@ -10,11 +10,11 @@ function verifyPassword(plainText, hash) {
 }
 
 const UserModel = {
-    async create({ username, email, password, dob, age, sex }) {
+    async create({ username, email, password, dob, age, sex, profile_picture = null }) {
         const password_hash = hashPassword(password);
         return await db.prepare(
-            `INSERT INTO users (username, email, password_hash, dob, age, sex) VALUES (?, ?, ?, ?, ?, ?)`
-        ).run(username, email, password_hash, dob, age, sex);
+            `INSERT INTO users (username, email, password_hash, dob, age, sex, profile_picture) VALUES (?, ?, ?, ?, ?, ?, ?)`
+        ).run(username, email, password_hash, dob, age, sex, profile_picture);
     },
 
     async findByEmail(email) {
@@ -26,7 +26,11 @@ const UserModel = {
     },
 
     async findById(id) {
-        return await db.prepare('SELECT id, username, email, dob, age, sex, created_at FROM users WHERE id = ?').get(id);
+        return await db.prepare('SELECT id, username, email, dob, age, sex, profile_picture, created_at FROM users WHERE id = ?').get(id);
+    },
+
+    async updateProfilePicture(id, profile_picture) {
+        return await db.prepare('UPDATE users SET profile_picture = ? WHERE id = ?').run(profile_picture, id);
     },
 
     verifyPassword(plainText, hash) {
