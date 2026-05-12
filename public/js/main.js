@@ -68,8 +68,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const profilePicInput = document.getElementById('profile_picture');
     const profilePicBase64 = document.getElementById('profile_picture_base64');
-    const profilePicPreview = document.querySelector('.profile-pic-preview');
-    const profileForm = document.querySelector('.profile-update-form');
+    const profileAvatarLarge = document.querySelector('.profile-avatar-large');
+    const profileForm = document.querySelector('.profile-pic-form-inline');
+    const cancelBtn = document.getElementById('cancel-pic-btn');
+    let originalAvatarHtml = '';
+    let originalAvatarClass = '';
+    
+    if (profileAvatarLarge) {
+        originalAvatarHtml = profileAvatarLarge.innerHTML;
+        originalAvatarClass = profileAvatarLarge.className;
+    }
     
     if (profilePicInput && profilePicBase64) {
         profilePicInput.addEventListener('change', function(e) {
@@ -81,11 +89,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     return;
                 }
                 
+                if (cancelBtn) cancelBtn.style.display = 'inline-block';
+                
                 const reader = new FileReader();
                 reader.onload = function(event) {
                     profilePicBase64.value = event.target.result;
-                    if (profilePicPreview) {
-                        profilePicPreview.innerHTML = `<img src="${event.target.result}" alt="Profile preview">`;
+                    
+                    if (profileAvatarLarge) {
+                        profileAvatarLarge.innerHTML = `<img src="${event.target.result}" alt="Profile">`;
+                        profileAvatarLarge.classList.add('profile-avatar-img');
                     }
                 };
                 reader.onerror = function() {
@@ -94,6 +106,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 reader.readAsDataURL(file);
             }
         });
+        
+        if (cancelBtn) {
+            cancelBtn.addEventListener('click', function() {
+                profilePicInput.value = '';
+                profilePicBase64.value = '';
+                if (profileAvatarLarge) {
+                    profileAvatarLarge.innerHTML = originalAvatarHtml;
+                    profileAvatarLarge.className = originalAvatarClass;
+                }
+                cancelBtn.style.display = 'none';
+            });
+        }
         
         if (profileForm) {
             profileForm.addEventListener('submit', function(e) {
