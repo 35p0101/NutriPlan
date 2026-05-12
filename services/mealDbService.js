@@ -1374,7 +1374,7 @@ async function generateMealPlan(goal, calorieTarget = 2000) {
 
     const getMealsForTarget = (colazioniPool, pranziPool, cenePool, spuntiniPool, targetCal) => {
         const maxAttempts = 10000;
-        const tolerance = 50;
+        const tolerance = 20;
         
         const sortedColazioni = [...colazioniPool].sort((a, b) => b.calorie - a.calorie);
         const sortedPranzi = [...pranziPool].sort((a, b) => b.calorie - a.calorie);
