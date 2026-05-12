@@ -31,11 +31,25 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 3000;
 
-initDb().then(() => {
-    app.listen(PORT, () => {
-        console.log(`NutriPlan avviato su http://localhost:${PORT}`);
-    });
-}).catch(err => {
-    console.error('Errore inizializzazione database:', err);
-    process.exit(1);
-});
+async function start() {
+    try {
+        await initDb();
+        if (process.env.VERCEL) {
+            return app;
+        }
+        app.listen(PORT, () => {
+            console.log(`NutriPlan avviato su http://localhost:${PORT}`);
+        });
+    } catch (err) {
+        console.error('Errore inizializzazione database:', err);
+        if (!process.env.VERCEL) {
+            process.exit(1);
+        }
+    }
+}
+
+if (process.env.VERCEL) {
+    module.exports = app;
+} else {
+    start();
+}
