@@ -13,5 +13,13 @@ router.get('/profile', authRequired, dashboardController.showProfile);
 router.post('/profile/update-picture', authRequired, dashboardController.updateProfilePicture);
 router.get('/tips', authRequired, dashboardController.showTips);
 router.get('/meal/:name', authRequired, dashboardController.showMealDetail);
+router.get('/api-keys', authRequired, dashboardController.showApiKeys);
+router.get('/api-keys/premium', authRequired, dashboardController.showPremium);
+router.get('/api-keys/premium/pay', authRequired, dashboardController.payPremium);
+router.get('/api-keys/premium/activate', authRequired, dashboardController.activatePremium);
+router.post('/api-keys/premium/confirm', authRequired, dashboardController.confirmPremium);
+router.post('/api-keys/create', authRequired, dashboardController.createApiKey);
+router.post('/api-keys/delete/:id', authRequired, dashboardController.deleteApiKey);
+router.post('/dashboard/regenerate', authRequired, dashboardController.regeneratePlan);
 
 module.exports = router;

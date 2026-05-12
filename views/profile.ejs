@@ -93,93 +93,103 @@
                 </div>
             </div>
 
-            <div class="box">
-                <h3>Obiettivo e Misure</h3>
+            <% if (typeof hasPremium !== 'undefined' && hasPremium) { %>
+            <div class="box premium-box">
+                <h3>Abbonamento</h3>
                 <div class="box-content">
-                    <% if (diet) { %>
-                        <div class="info-row">
-                            <span class="info-label">Obiettivo</span>
-                            <span class="info-value goal-badge goal-<%= diet.goal %>"><%= diet.goal === 'slim' ? 'Dimagrimento' : 'Massa Muscolare' %></span>
+                    <div class="premium-status">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                        </svg>
+                        <div>
+                            <strong>Premium Attivo</strong>
+                            <% if (typeof premiumExpiry !== 'undefined' && premiumExpiry) { %>
+                                <span>Scade il <%= new Date(premiumExpiry).toLocaleDateString('it-IT') %></span>
+                            <% } %>
                         </div>
-                        <div class="info-row">
-                            <span class="info-label">BMI</span>
-                            <span class="info-value">
-                                <%= diet.bmi %>
-                                <% if (bmiCategory) { %>
-                                    <span class="bmi-category bmi-<%= bmiCategory.toLowerCase().replace(' ', '-') %>"><%= bmiCategory %></span>
-                                <% } %>
-                            </span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Peso attuale</span>
-                            <span class="info-value"><%= diet.weight %> kg</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Altezza</span>
-                            <span class="info-value"><%= diet.height %> cm</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Peso obiettivo</span>
-                            <span class="info-value"><%= diet.target_weight %> kg</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Calorie giornaliere</span>
-                            <span class="info-value highlight"><%= diet.calories %> kcal</span>
-                        </div>
-                    <% } else { %>
-                        <p class="no-data">Nessun obiettivo definito. <a href="/diet/step1">Crea il tuo piano</a></p>
-                    <% } %>
-                </div>
-            </div>
-
-            <div class="box">
-                <h3>Macronutrienti</h3>
-                <div class="box-content">
-                    <% if (diet) { %>
-                        <div class="macro-progress-list">
-                            <div class="macro-progress-item">
-                                <div class="macro-progress-header">
-                                    <span>Proteine</span>
-                                    <span><%= diet.protein_g %>g</span>
-                                </div>
-                                <div class="macro-progress-bar">
-                                    <div class="macro-progress-fill protein" style="width: <%= Math.min(100, (diet.protein_g / 200) * 100) %>%;"></div>
-                                </div>
-                            </div>
-                            <div class="macro-progress-item">
-                                <div class="macro-progress-header">
-                                    <span>Carboidrati</span>
-                                    <span><%= diet.carbs_g %>g</span>
-                                </div>
-                                <div class="macro-progress-bar">
-                                    <div class="macro-progress-fill carbs" style="width: <%= Math.min(100, (diet.carbs_g / 400) * 100) %>%;"></div>
-                                </div>
-                            </div>
-                            <div class="macro-progress-item">
-                                <div class="macro-progress-header">
-                                    <span>Grassi</span>
-                                    <span><%= diet.fat_g %>g</span>
-                                </div>
-                                <div class="macro-progress-bar">
-                                    <div class="macro-progress-fill fat" style="width: <%= Math.min(100, (diet.fat_g / 100) * 100) %>%;"></div>
-                                </div>
-                            </div>
-                        </div>
-                    <% } else { %>
-                        <p class="no-data">Nessun dato disponibile.</p>
-                    <% } %>
-                </div>
-            </div>
-
-            <div class="box box-actions">
-                <h3>Azioni</h3>
-                <div class="box-content">
-                    <div class="action-buttons">
-                        <a href="/diet/step1" class="btn-primary btn-block">Nuovo Piano</a>
-                        <a href="/logout" class="btn-ghost btn-block">Esci</a>
                     </div>
                 </div>
             </div>
+            <% } %>
+
+            <% if (diet) { %>
+            <div class="box">
+                <h3>Obiettivo e Misure</h3>
+                <div class="box-content">
+                    <div class="info-row">
+                        <span class="info-label">Obiettivo</span>
+                        <span class="info-value goal-badge goal-<%= diet.goal %>"><%= diet.goal === 'slim' ? 'Dimagrimento' : 'Massa Muscolare' %></span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">BMI</span>
+                        <span class="info-value">
+                            <%= diet.bmi %>
+                            <% if (bmiCategory) { %>
+                                <span class="bmi-category bmi-<%= bmiCategory.toLowerCase().replace(' ', '-') %>"><%= bmiCategory %></span>
+                            <% } %>
+                        </span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Peso attuale</span>
+                        <span class="info-value"><%= diet.weight %> kg</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Altezza</span>
+                        <span class="info-value"><%= diet.height %> cm</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Peso obiettivo</span>
+                        <span class="info-value"><%= diet.target_weight %> kg</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Calorie giornaliere</span>
+                        <span class="info-value highlight"><%= diet.calories %> kcal</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box macro-box">
+                <h3>Macronutrienti</h3>
+                <div class="box-content">
+                    <div class="macro-progress-list">
+                        <div class="macro-progress-item">
+                            <div class="macro-progress-header">
+                                <span>Proteine</span>
+                                <span><%= diet.protein_g %>g</span>
+                            </div>
+                            <div class="macro-progress-bar">
+                                <div class="macro-progress-fill protein" style="width: <%= Math.min(100, (diet.protein_g / 200) * 100) %>%;"></div>
+                            </div>
+                        </div>
+                        <div class="macro-progress-item">
+                            <div class="macro-progress-header">
+                                <span>Carboidrati</span>
+                                <span><%= diet.carbs_g %>g</span>
+                            </div>
+                            <div class="macro-progress-bar">
+                                <div class="macro-progress-fill carbs" style="width: <%= Math.min(100, (diet.carbs_g / 400) * 100) %>%;"></div>
+                            </div>
+                        </div>
+                        <div class="macro-progress-item">
+                            <div class="macro-progress-header">
+                                <span>Grassi</span>
+                                <span><%= diet.fat_g %>g</span>
+                            </div>
+                            <div class="macro-progress-bar">
+                                <div class="macro-progress-fill fat" style="width: <%= Math.min(100, (diet.fat_g / 100) * 100) %>%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <% } else { %>
+            <div class="box box-empty">
+                <h3>Obiettivo e Misure</h3>
+                <div class="box-content">
+                    <p class="no-data">Nessun obiettivo definito. <a href="/diet/step1">Crea il tuo piano</a></p>
+                </div>
+            </div>
+            <% } %>
         </div>
     </main>
 

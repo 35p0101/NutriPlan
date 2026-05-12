@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Keys - NutriPlan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body>
+    <div class="mobile-topbar" id="mobileTopbar">
+        <button class="hamburger-btn" id="sidebarToggle" aria-label="Apri menu">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        </button>
+        <a href="/" class="topbar-logo">
+            <img src="/img/logo.svg" alt="NutriPlan" class="topbar-logo-img">
+            <span class="topbar-logo-text">NutriPlan</span>
+        </a>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <%- include('partials/sidebar') %>
+
+    <main class="main-content">
+        <div class="dashboard-header">
+            <h1>API Keys</h1>
+            <p>Genera e gestisci le tue chiavi API per integrare NutriPlan nei tuoi progetti</p>
+        </div>
+
+        <% if (success) { %>
+            <div class="alert alert-success" id="successAlert"><%= success %></div>
+        <% } %>
+        <% if (error) { %>
+            <div class="alert alert-error" id="errorAlert"><%= error %></div>
+        <% } %>
+
+        <div class="api-keys-container">
+            <div class="api-keys-main">
+                <div class="box">
+                    <div class="box-header">
+                        <h3>Le tue API Keys</h3>
+                        <span class="key-count <%= hasPremium ? 'key-count-premium' : '' %>"><%= keyCount %> <%= keyCount === 1 ? 'chiave' : 'chiavi' %><% if (hasPremium) { %> (illimitate)<% } %></span>
+                    </div>
+                    <div class="box-content">
+                        <form action="/api-keys/create" method="POST" class="create-key-form">
+                            <input type="text" name="name" placeholder="Nome API Key (opzionale)" class="input-field">
+                            <button type="submit" class="btn-primary">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                                Genera
+                            </button>
+                        </form>
+
+                        <% if (hasPremium) { %>
+                            <div class="premium-active-notice">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                </svg>
+                                Premium Attivo - API keys illimitate
+                            </div>
+                        <% } else if (keyCount >= 2) { %>
+                            <div class="limit-notice">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="8" x2="12" y2="12"></line>
+                                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                            </svg>
+                            <div>
+                                <strong>Limite raggiunto:</strong> 2 API key
+                            </div>
+                            <a href="/api-keys/premium" class="btn-premium">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                </svg>
+                                Passa a Premium - 2€/mese
+                            </a>
+                        </div>
+                        <% } %>
+
+                        <% if (apiKeys && apiKeys.length > 0) { %>
+                            <div class="keys-list">
+                                <% apiKeys.forEach(function(key) { %>
+                                    <div class="key-item">
+                                        <div class="key-info">
+                                            <span class="key-name"><%= key.name %></span>
+                                            <code class="key-value"><%= key.api_key %></code>
+                                            <span class="key-date">Creata il <%= new Date(key.created_at).toLocaleDateString('it-IT') %></span>
+                                        </div>
+                                        <div class="key-actions">
+                                            <button class="btn-icon copy-btn" data-key="<%= key.api_key %>" title="Copia">
+                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                                </svg>
+                                            </button>
+                                            <form action="/api-keys/delete/<%= key.id %>" method="POST" class="delete-form">
+                                                <button type="submit" class="btn-icon btn-delete" title="Elimina">
+                                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                        <polyline points="3 6 5 6 21 6"></polyline>
+                                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                                    </svg>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                <% }); %>
+                            </div>
+                        <% } else { %>
+                            <div class="no-keys">
+                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path>
+                                </svg>
+                                <p>Nessuna API key creata</p>
+                                <span>Genera la tua prima chiave per iniziare</span>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+
+            <div class="api-keys-sidebar">
+                <div class="box">
+                    <h3>Documentazione API</h3>
+                    <div class="box-content">
+                        <div class="api-doc-section">
+                            <h4>Autenticazione</h4>
+                            <p>Usa l'header <code>x-api-key</code> con la tua chiave.</p>
+                            <code class="api-example">x-api-key: np_abc123...</code>
+                        </div>
+                        
+                        <div class="api-doc-section">
+                            <h4>Endpoint</h4>
+                            <div class="api-endpoint-list">
+                                <div class="api-endpoint-row">
+                                    <code>GET /api/meal-plan</code>
+                                    <span>Piano pasti</span>
+                                </div>
+                                <div class="api-endpoint-row">
+                                    <code>GET /api/diet</code>
+                                    <span>Dati dieta</span>
+                                </div>
+                                <div class="api-endpoint-row">
+                                    <code>GET /api/recipes</code>
+                                    <span>Ricette</span>
+                                </div>
+                                <div class="api-endpoint-row">
+                                    <code>GET /api/food?q=nome</code>
+                                    <span>Nutrizione</span>
+                                </div>
+                                <div class="api-endpoint-row">
+                                    <code>GET /api/meal/:name</code>
+                                    <span>Ricetta dettaglio</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="/js/main.js"></script>
+    <script>
+        document.querySelectorAll('.copy-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const key = this.getAttribute('data-key');
+                navigator.clipboard.writeText(key).then(() => {
+                    this.classList.add('copied');
+                    setTimeout(() => this.classList.remove('copied'), 2000);
+                });
+            });
+        });
+
+        document.querySelectorAll('.delete-form').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                if (!confirm('Eliminare questa API key?')) {
+                    e.preventDefault();
+                }
+            });
+        });
+
+        const successAlert = document.getElementById('successAlert');
+        const errorAlert = document.getElementById('errorAlert');
+        
+        if (successAlert) {
+            setTimeout(() => {
+                successAlert.style.opacity = '0';
+                setTimeout(() => successAlert.remove(), 300);
+            }, 5000);
+        }
+        
+        if (errorAlert) {
+            setTimeout(() => {
+                errorAlert.style.opacity = '0';
+                setTimeout(() => errorAlert.remove(), 300);
+            }, 5000);
+        }
+    </script>
+</body>
+</html>

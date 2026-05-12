@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
             `;
 
             try {
-                const response = await fetch('/api/regenerate', {
+                const response = await fetch('/dashboard/regenerate', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

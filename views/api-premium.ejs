@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium API - NutriPlan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body>
+    <div class="mobile-topbar" id="mobileTopbar">
+        <button class="hamburger-btn" id="sidebarToggle" aria-label="Apri menu">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        </button>
+        <a href="/" class="topbar-logo">
+            <img src="/img/logo.svg" alt="NutriPlan" class="topbar-logo-img">
+            <span class="topbar-logo-text">NutriPlan</span>
+</a>
+                    </div>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <%- include('partials/sidebar') %>
+
+    <main class="main-content">
+        <div class="dashboard-header">
+            <h1>Premium API</h1>
+            <p>Sblocca API keys illimitate e tutte le funzionalità premium</p>
+        </div>
+
+        <div class="premium-page">
+            <div class="premium-card-new">
+                <div class="premium-hero">
+                    <div class="premium-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                        </svg>
+                    </div>
+                    <div class="premium-badge">PREMIUM</div>
+                    <div class="premium-price">
+                        <span class="amount">2€</span>
+                        <span class="period">/mese</span>
+                    </div>
+                </div>
+
+                <div class="premium-features-new">
+                    <h3>Cosa ottieni:</h3>
+                    <ul>
+                        <li>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <span><strong>API Key illimitate</strong></span>
+                        </li>
+                        <li>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <span><strong>Priorità nelle API</strong></span>
+                        </li>
+                        <li>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <span><strong>Accesso anticipato</strong></span>
+                        </li>
+                        <li>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <span><strong>Supporto prioritario</strong></span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="premium-payment-new">
+                    <p>Paga con PayPal. Dopo il pagamento clicca "Conferma" per attivare.</p>
+                    
+                    <div class="payment-buttons">
+                        <a href="/api-keys/premium/pay" class="btn-paypal-new">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h14.152c2.634 0 4.962 1.14 6.763 3.115 1.806 1.98 2.777 4.627 2.777 7.571 0 2.33-.806 4.556-2.335 6.425-1.529 1.87-3.602 3.21-6.017 3.935l2.893 2.893a.484.484 0 0 1-.684.684l-2.893-2.893H7.076v-.246zm11.255-16.07c1.53 0 2.77 1.245 2.77 2.775 0 1.531-1.24 2.776-2.77 2.776-1.53 0-2.77-1.245-2.77-2.776 0-1.53 1.24-2.775 2.77-2.775z"/>
+                            </svg>
+                            Paga 2€/mese
+                        </a>
+                    </div>
+                    
+                    <form action="/api-keys/premium/confirm" method="POST" class="confirm-form">
+                        <button type="submit" class="btn-confirm-new">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            Ho pagato - Conferma
+                        </button>
+                    </form>
+                </div>
+
+                <div class="premium-footer">
+                    <a href="/api-keys" class="btn-back">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="19" y1="12" x2="5" y2="12"></line>
+                            <polyline points="12 19 5 12 12 5"></polyline>
+                        </svg>
+                        Torna a API Keys
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>
