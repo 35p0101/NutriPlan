@@ -1,9 +1,18 @@
 const DietModel = require('../models/DietModel');
 const MealPlanModel = require('../models/MealPlanModel');
-const { generateMealPlan, getRandomMeals, getMealDetail } = require('../services/mealDbService');
+const { generateMealPlan, getRandomMeals, getMealDetail, addGrammiToAllMeals } = require('../services/mealDbService');
 const { fetchFoodInfo, getNutritionFacts, getFoodsByGoal } = require('../services/externalApiService');
 const js2xmlparser = require('js2xmlparser');
 const { wantsXml } = require('../middleware/xmlMiddleware');
+
+function addGrammiToPlan(planData) {
+    if (!planData) return planData;
+    const result = {};
+    for (const [giorno, dayData] of Object.entries(planData)) {
+        result[giorno] = addGrammiToAllMeals(dayData);
+    }
+    return result;
+}
 
 function toXmlOrJson(res, req, rootKey, data) {
     if (wantsXml(req)) {
@@ -69,14 +78,20 @@ module.exports = {
             }
 
             const calorieTarget = diet.calories || 2000;
-            const plan = await generateMealPlan(diet.goal, calorieTarget);
+            const macroTargets = {
+                protein_g: diet.protein_g,
+                carbs_g: diet.carbs_g,
+                fat_g: diet.fat_g
+            };
+            const plan = await generateMealPlan(diet.goal, calorieTarget, macroTargets);
+            const planWithGrammi = addGrammiToPlan(plan);
             const today = new Date().toISOString().split('T')[0];
 
             await MealPlanModel.upsert({
                 diet_id: diet.id,
                 user_id: req.user.id,
                 week_start: today,
-                plan_json: JSON.stringify(plan)
+                plan_json: JSON.stringify(planWithGrammi)
             });
 
             res.json({ success: true, plan });

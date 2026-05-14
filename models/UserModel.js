@@ -40,6 +40,30 @@ const UserModel = {
         return await db.prepare('UPDATE users SET profile_picture = ? WHERE id = ?').run(profile_picture, id);
     },
 
+    async updatePassword(id, newPassword) {
+        const password_hash = hashPassword(newPassword);
+        return await db.prepare('UPDATE users SET password_hash = ? WHERE id = ?').run(password_hash, id);
+    },
+
+    async setPremium(userId, isPremium, expiresAt = null) {
+        return await db.prepare('UPDATE users SET is_premium = ?, premium_expires_at = ? WHERE id = ?').run(isPremium ? 1 : 0, expiresAt, userId);
+    },
+
+    async isPremium(userId) {
+        const user = await db.prepare('SELECT is_premium, premium_expires_at FROM users WHERE id = ?').get(userId);
+        if (!user) return false;
+        if (user.is_premium !== 1) return false;
+        if (user.premium_expires_at && new Date(user.premium_expires_at) < new Date()) return false;
+        return true;
+    },
+
+    async getPremiumExpiry(userId) {
+        const user = await db.prepare('SELECT premium_expires_at FROM users WHERE id = ? AND is_premium = 1').get(userId);
+        if (!user?.premium_expires_at) return null;
+        if (new Date(user.premium_expires_at) < new Date()) return null;
+        return user.premium_expires_at;
+    },
+
     verifyPassword(plainText, hash) {
         return verifyPassword(plainText, hash);
     }

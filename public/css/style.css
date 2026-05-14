@@ -73,17 +73,63 @@ img {
     font-weight: 600;
     font-size: 0.95rem;
     cursor: pointer;
-    transition: all 0.15s ease;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     text-decoration: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(255,255,255,0.15), rgba(255,255,255,0));
+    opacity: 0;
+    transition: opacity 0.2s;
 }
 
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(123, 219, 142, 0.3);
+    box-shadow: 0 6px 20px rgba(123, 219, 142, 0.35);
     color: var(--bg-primary);
 }
 
+.btn-primary:hover::before {
+    opacity: 1;
+}
+
 .btn-primary:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(123, 219, 142, 0.2);
+}
+
+.btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-primary);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: var(--radius-btn);
+    padding: 0.75rem 1.75rem;
+    font-weight: 500;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.25);
+    transform: translateY(-1px);
+}
+
+.btn-secondary:active {
     transform: translateY(0);
 }
 
@@ -94,24 +140,29 @@ img {
     gap: 0.5rem;
     background: transparent;
     color: var(--text-secondary);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: var(--radius-btn);
     padding: 0.75rem 1.75rem;
     font-weight: 500;
     font-size: 0.95rem;
     cursor: pointer;
-    transition: all 0.15s ease;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     text-decoration: none;
 }
 
 .btn-ghost:hover {
     background: var(--bg-card);
     color: var(--text-primary);
-    border-color: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.25);
+    transform: translateY(-1px);
+}
+
+.btn-ghost:active {
+    background: rgba(255, 255, 255, 0.05);
 }
 
 .btn-sm {
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 1.1rem;
     font-size: 0.85rem;
 }
 
@@ -443,8 +494,9 @@ img {
 
 .alert {
     padding: 1rem 1.5rem;
-    border-radius: 8px;
+    border-radius: var(--radius-card);
     margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
 }
 
 .alert-error {

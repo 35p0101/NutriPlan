@@ -15,14 +15,54 @@ function calcCalories(tdee, goal) {
     return goal === 'slim' ? tdee - 400 : tdee + 250;
 }
 
-function calcMacros(calories, goal) {
-    const ratios = goal === 'slim'
-        ? { protein: 0.35, carbs: 0.40, fat: 0.25 }
-        : { protein: 0.30, carbs: 0.45, fat: 0.25 };
+function calcMacros(calories, goal, sex = 'M', activityLevel = 3) {
+    let proteinRatio, carbsRatio, fatRatio;
+
+    const activityFactor = activityLevel >= 4 ? 1.1 : (activityLevel <= 2 ? 0.9 : 1.0);
+
+    if (goal === 'slim') {
+        if (sex === 'M') {
+            proteinRatio = 0.32;
+            carbsRatio = 0.38;
+            fatRatio = 0.30;
+        } else {
+            proteinRatio = 0.35;
+            carbsRatio = 0.35;
+            fatRatio = 0.30;
+        }
+        proteinRatio *= activityFactor;
+    } else {
+        if (sex === 'M') {
+            proteinRatio = 0.28;
+            carbsRatio = 0.47;
+            fatRatio = 0.25;
+        } else {
+            proteinRatio = 0.30;
+            carbsRatio = 0.45;
+            fatRatio = 0.25;
+        }
+        proteinRatio *= activityFactor;
+        carbsRatio *= activityFactor;
+    }
+
+    const protein_g = Math.round((calories * proteinRatio) / 4);
+    const carbs_g = Math.round((calories * carbsRatio) / 4);
+    const fat_g = Math.round((calories * fatRatio) / 9);
+
+    const totalCalFromMacros = (protein_g * 4) + (carbs_g * 4) + (fat_g * 9);
+    const diff = calories - totalCalFromMacros;
+
+    let adjustedCarbs = carbs_g;
+    if (diff >= 4) {
+        adjustedCarbs = Math.round((calories * carbsRatio + diff) / 4);
+    } else if (diff <= -4) {
+        adjustedCarbs = Math.round((calories * carbsRatio + diff) / 4);
+    }
+
     return {
-        protein_g: Math.round((calories * ratios.protein) / 4),
-        carbs_g: Math.round((calories * ratios.carbs) / 4),
-        fat_g: Math.round((calories * ratios.fat) / 9)
+        protein_g,
+        carbs_g: adjustedCarbs,
+        fat_g
     };
 }
 

@@ -277,12 +277,12 @@ document.addEventListener('DOMContentLoaded', function() {
         profilePicInput.addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
-                if (file.size > 500 * 1024) {
-                    alert('File troppo grande. Max 500KB.');
+                if (file.size > 2 * 1024 * 1024) {
+                    showMessage('File troppo grande. Max 2MB.', 'error');
                     this.value = '';
                     return;
                 }
-                
+
                 const reader = new FileReader();
                 reader.onload = function(event) {
                     profilePicPreview.innerHTML = `<img src="${event.target.result}" alt="Profile preview">`;

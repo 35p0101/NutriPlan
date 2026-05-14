@@ -45,46 +45,28 @@
                 <a href="/diet/step1" class="btn-primary">Crea il tuo Piano</a>
             </div>
         <% } else { %>
-            <div class="dashboard-top-row">
-                <div class="box account-box">
-                    <h3>Account</h3>
-                    <div class="box-content">
-                        <div class="info-row">
-                            <span class="info-label">Username</span>
-                            <span class="info-value"><%= user.username %></span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Email</span>
-                            <span class="info-value"><%= user.email %></span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Età</span>
-                            <span class="info-value"><%= user.age %> anni</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Sesso</span>
-                            <span class="info-value"><%= user.sex === 'M' ? 'Maschio' : 'Femmina' %></span>
-                        </div>
+            <div class="box goal-box">
+                <h3>Il tuo Obiettivo</h3>
+                <div class="box-content">
+                    <div class="goal-display">
+                        <span class="goal-badge goal-<%= diet.goal %>"><%= diet.goal === 'slim' ? 'Dimagrimento' : 'Massa Muscolare' %></span>
                     </div>
-                </div>
-
-                <div class="box goal-box">
-                    <h3>Il tuo Obiettivo</h3>
-                    <div class="box-content">
-                        <div class="goal-display">
-                            <span class="goal-badge goal-<%= diet.goal %>"><%= diet.goal === 'slim' ? 'Dimagrimento' : 'Massa Muscolare' %></span>
+                    <div class="goal-stats-grid">
+                        <div class="goal-stat">
+                            <span class="goal-stat-label">BMI</span>
+                            <span class="goal-stat-value"><%= diet.bmi %></span>
                         </div>
-                        <div class="info-row">
-                            <span class="info-label">BMI</span>
-                            <span class="info-value"><%= diet.bmi %></span>
+                        <div class="goal-stat">
+                            <span class="goal-stat-label">Peso attuale</span>
+                            <span class="goal-stat-value"><%= diet.weight %> kg</span>
                         </div>
-                        <div class="info-row">
-                            <span class="info-label">Calorie giornaliere</span>
-                            <span class="info-value highlight"><%= diet.calories %> kcal</span>
+                        <div class="goal-stat">
+                            <span class="goal-stat-label">Peso obiettivo</span>
+                            <span class="goal-stat-value"><%= diet.target_weight %> kg</span>
                         </div>
-                        <div class="info-row">
-                            <span class="info-label">Peso obiettivo</span>
-                            <span class="info-value"><%= diet.target_weight %> kg</span>
+                        <div class="goal-stat highlight">
+                            <span class="goal-stat-label">Calorie giornaliere</span>
+                            <span class="goal-stat-value"><%= diet.calories %> kcal</span>
                         </div>
                     </div>
                 </div>
@@ -128,6 +110,9 @@
                                         <span class="meal-type">Colazione</span>
                                         <% if (planData[giorno]?.colazione?.nome) { %>
                                             <a href="/meal/<%= encodeURIComponent(planData[giorno].colazione.nome) %>" class="meal-link"><%= planData[giorno].colazione.nome %></a>
+                                            <% if (planData[giorno].colazione.totalGrammi) { %>
+                                                <span class="meal-grammi"><%= planData[giorno].colazione.totalGrammi %>g</span>
+                                            <% } %>
                                         <% } else { %>
                                             <span class="meal-name">N/A</span>
                                         <% } %>
@@ -136,12 +121,18 @@
                                     <div class="meal-slot snack">
                                         <span class="meal-type">Spuntino</span>
                                         <a href="/meal/<%= encodeURIComponent(planData[giorno].spuntino1.nome) %>" class="meal-link"><%= planData[giorno].spuntino1.nome %></a>
+                                        <% if (planData[giorno].spuntino1.totalGrammi) { %>
+                                            <span class="meal-grammi"><%= planData[giorno].spuntino1.totalGrammi %>g</span>
+                                        <% } %>
                                     </div>
                                     <% } %>
                                     <div class="meal-slot">
                                         <span class="meal-type">Pranzo</span>
                                         <% if (planData[giorno]?.pranzo?.nome) { %>
                                             <a href="/meal/<%= encodeURIComponent(planData[giorno].pranzo.nome) %>" class="meal-link"><%= planData[giorno].pranzo.nome %></a>
+                                            <% if (planData[giorno].pranzo.totalGrammi) { %>
+                                                <span class="meal-grammi"><%= planData[giorno].pranzo.totalGrammi %>g</span>
+                                            <% } %>
                                         <% } else { %>
                                             <span class="meal-name">N/A</span>
                                         <% } %>
@@ -150,18 +141,27 @@
                                     <div class="meal-slot snack">
                                         <span class="meal-type">Spuntino</span>
                                         <a href="/meal/<%= encodeURIComponent(planData[giorno].spuntino2.nome) %>" class="meal-link"><%= planData[giorno].spuntino2.nome %></a>
+                                        <% if (planData[giorno].spuntino2.totalGrammi) { %>
+                                            <span class="meal-grammi"><%= planData[giorno].spuntino2.totalGrammi %>g</span>
+                                        <% } %>
                                     </div>
                                     <% } %>
                                     <% if (planData[giorno]?.spuntino3?.nome) { %>
                                     <div class="meal-slot snack">
                                         <span class="meal-type">Spuntino</span>
                                         <a href="/meal/<%= encodeURIComponent(planData[giorno].spuntino3.nome) %>" class="meal-link"><%= planData[giorno].spuntino3.nome %></a>
+                                        <% if (planData[giorno].spuntino3.totalGrammi) { %>
+                                            <span class="meal-grammi"><%= planData[giorno].spuntino3.totalGrammi %>g</span>
+                                        <% } %>
                                     </div>
                                     <% } %>
                                     <div class="meal-slot">
                                         <span class="meal-type">Cena</span>
                                         <% if (planData[giorno]?.cena?.nome) { %>
                                             <a href="/meal/<%= encodeURIComponent(planData[giorno].cena.nome) %>" class="meal-link"><%= planData[giorno].cena.nome %></a>
+                                            <% if (planData[giorno].cena.totalGrammi) { %>
+                                                <span class="meal-grammi"><%= planData[giorno].cena.totalGrammi %>g</span>
+                                            <% } %>
                                         <% } else { %>
                                             <span class="meal-name">N/A</span>
                                         <% } %>

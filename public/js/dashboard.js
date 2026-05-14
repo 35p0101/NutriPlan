@@ -76,7 +76,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const getMealLink = (meal) => {
                 if (meal && meal.nome) {
-                    return `<a href="/meal/${encodeURIComponent(meal.nome)}" class="meal-link">${meal.nome}</a>`;
+                    let html = `<a href="/meal/${encodeURIComponent(meal.nome)}" class="meal-link">${meal.nome}</a>`;
+                    if (meal.totalGrammi) {
+                        html += `<span class="meal-grammi">${meal.totalGrammi}g</span>`;
+                    }
+                    return html;
                 }
                 return '<span class="meal-name">-</span>';
             };

@@ -33,6 +33,8 @@ async function createTables() {
             dob TEXT NOT NULL,
             age INTEGER NOT NULL,
             sex TEXT NOT NULL CHECK(sex IN ('M', 'F')),
+            is_premium INTEGER DEFAULT 0,
+            premium_expires_at TIMESTAMP,
             created_at TIMESTAMP DEFAULT NOW()
         )`,
         `CREATE TABLE IF NOT EXISTS diets (

@@ -3,8 +3,17 @@ const UserModel = require('../models/UserModel');
 const calc = require('../services/calculations');
 const MealPlanModel = require('../models/MealPlanModel');
 const ApiKeyModel = require('../models/ApiKeyModel');
-const { getMealDetail } = require('../services/mealDbService');
+const { getMealDetail, addGrammiToAllMeals } = require('../services/mealDbService');
 const { calcBMI, calcBMR, calcTDEE, calcCalories, calcMacros, calcIdealWeight, getBMICategory } = require('../services/calculations');
+
+function addGrammiToPlan(planData) {
+    if (!planData) return planData;
+    const result = {};
+    for (const [giorno, dayData] of Object.entries(planData)) {
+        result[giorno] = addGrammiToAllMeals(dayData);
+    }
+    return result;
+}
 
 module.exports = {
     async showDashboard(req, res) {
@@ -16,6 +25,7 @@ module.exports = {
             if (mealPlan) {
                 try {
                     planData = JSON.parse(mealPlan.plan_json);
+                    planData = addGrammiToPlan(planData);
                 } catch (e) {
                     planData = null;
                 }
@@ -45,14 +55,15 @@ module.exports = {
             const currentUser = await UserModel.findById(req.user.id);
             const diet = await DietModel.findLatestByUser(req.user.id);
             const bmiCategory = diet ? calc.getBMICategory(diet.bmi) : null;
-            const hasPremium = await ApiKeyModel.hasPremiumKeys(req.user.id);
-            const premiumExpiry = hasPremium ? await ApiKeyModel.getPremiumExpiry(req.user.id) : null;
+            const hasPremium = await UserModel.isPremium(req.user.id);
+            const premiumExpiry = await UserModel.getPremiumExpiry(req.user.id);
+            const keyCount = hasPremium ? null : await ApiKeyModel.countByUser(req.user.id);
             const error = req.query.error || null;
             const success = req.query.success || null;
-            res.render('profile', { user: currentUser, diet, bmiCategory, hasPremium, premiumExpiry, error, success });
+            res.render('profile', { user: currentUser, diet, bmiCategory, hasPremium, premiumExpiry, keyCount, error, success });
         } catch (err) {
             console.error('Profile error:', err);
-            res.render('profile', { user: req.user, diet: null, bmiCategory: null, hasPremium: false, premiumExpiry: null, error: 'Errore nel caricamento del profilo', success: null });
+            res.render('profile', { user: req.user, diet: null, bmiCategory: null, hasPremium: false, premiumExpiry: null, keyCount: null, error: 'Errore nel caricamento del profilo', success: null });
         }
     },
 
@@ -78,6 +89,61 @@ module.exports = {
         } catch (err) {
             console.error('Update picture error:', err.message);
             res.redirect('/profile?error=Errore: ' + err.message);
+        }
+    },
+
+    async removeProfilePicture(req, res) {
+        try {
+            await UserModel.updateProfilePicture(req.user.id, null);
+            res.redirect('/profile?success=Foto profilo rimossa');
+        } catch (err) {
+            console.error('Remove picture error:', err.message);
+            res.redirect('/profile?error=Errore: ' + err.message);
+        }
+    },
+
+    async changePassword(req, res) {
+        try {
+            const { currentPassword, newPassword, confirmPassword } = req.body;
+
+            if (!currentPassword || !newPassword || !confirmPassword) {
+                return res.redirect('/profile?error=Tutti i campi sono obbligatori');
+            }
+
+            if (newPassword !== confirmPassword) {
+                return res.redirect('/profile?error=Le password non coincidono');
+            }
+
+            if (newPassword.length < 6) {
+                return res.redirect('/profile?error=La nuova password deve essere di almeno 6 caratteri');
+            }
+
+            const user = await UserModel.findById(req.user.id);
+            if (!user) {
+                return res.redirect('/profile?error=Utente non trovato');
+            }
+
+            const passwordValid = UserModel.verifyPassword(currentPassword, user.password_hash);
+            if (!passwordValid) {
+                return res.redirect('/profile?error=Password attuale non corretta');
+            }
+
+            await UserModel.updatePassword(req.user.id, newPassword);
+
+            res.redirect('/profile?success=Password modificata con successo');
+        } catch (err) {
+            console.error('Change password error:', err.message);
+            res.redirect('/profile?error=Errore nella modifica della password');
+        }
+    },
+
+    async cancelPremium(req, res) {
+        try {
+            await UserModel.setPremium(req.user.id, false, null);
+            res.redirect('/profile?success=Abbonamento annullato');
+        } catch (err) {
+            console.error('Cancel premium error:', err.message);
+            res.redirect('/profile?error=Errore nell\'annullamento dell\'abbonamento');
         }
     },
 
@@ -110,23 +176,8 @@ module.exports = {
         try {
             const apiKeys = await ApiKeyModel.findAllByUser(req.user.id);
             const keyCount = apiKeys.length;
-            
-            const now = new Date();
-            let hasPremium = false;
-            
-            for (const key of apiKeys) {
-                if (key.is_premium === 1 && key.premium_expires_at) {
-                    const expiry = new Date(key.premium_expires_at);
-                    if (expiry > now) {
-                        hasPremium = true;
-                        break;
-                    }
-                }
-            }
-            
-            console.log('API keys:', apiKeys.map(k => ({id: k.id, is_premium: k.is_premium, premium_expires_at: k.premium_expires_at})));
-            console.log('hasPremium:', hasPremium);
-            
+            const hasPremium = await UserModel.isPremium(req.user.id);
+
             res.render('api-keys', {
                 user: req.user,
                 apiKeys,
@@ -145,7 +196,7 @@ module.exports = {
         try {
             const userId = req.user.id;
             const keyCount = await ApiKeyModel.countByUser(userId);
-            const hasPremium = await ApiKeyModel.hasPremiumKeys(userId);
+            const hasPremium = await UserModel.isPremium(userId);
 
             if (keyCount >= 2 && !hasPremium) {
                 return res.redirect('/api-keys?error=Limite di creazione raggiunto, passa a Premium');
@@ -187,10 +238,7 @@ module.exports = {
             const expiresAt = new Date();
             expiresAt.setMonth(expiresAt.getMonth() + 1);
             
-            const apiKeys = await ApiKeyModel.findAllByUser(req.user.id);
-            for (const key of apiKeys) {
-                await ApiKeyModel.setPremium(key.id, true, expiresAt.toISOString());
-            }
+            await UserModel.setPremium(req.user.id, true, expiresAt.toISOString());
             res.redirect('/api-keys?success=Premium attivato! Scadenza: ' + expiresAt.toLocaleDateString('it-IT'));
         } catch (err) {
             console.error('Confirm premium error:', err);
@@ -204,10 +252,10 @@ module.exports = {
             if (!subscription_id) {
                 return res.redirect('/api-keys?error=ID abbonamento mancante');
             }
-            const apiKeys = await ApiKeyModel.findAllByUser(req.user.id);
-            for (const key of apiKeys) {
-                await ApiKeyModel.setPremium(key.id, true);
-            }
+            
+            const expiresAt = new Date();
+            expiresAt.setMonth(expiresAt.getMonth() + 1);
+            await UserModel.setPremium(req.user.id, true, expiresAt.toISOString());
             res.redirect('/api-keys?success=Premium attivato! Ora puoi generare API key illimitate.');
         } catch (err) {
             console.error('Activate premium error:', err);
@@ -223,20 +271,29 @@ module.exports = {
             }
 
             const MealPlanModel = require('../models/MealPlanModel');
-            const { generateMealPlan } = require('../services/mealDbService');
+            const { generateMealPlan, addGrammiToAllMeals } = require('../services/mealDbService');
 
             const calorieTarget = diet.calories || 2000;
-            const plan = await generateMealPlan(diet.goal, calorieTarget);
+            const macroTargets = {
+                protein_g: diet.protein_g,
+                carbs_g: diet.carbs_g,
+                fat_g: diet.fat_g
+            };
+            const plan = await generateMealPlan(diet.goal, calorieTarget, macroTargets);
+            const planWithGrammi = {};
+            for (const [giorno, dayData] of Object.entries(plan)) {
+                planWithGrammi[giorno] = addGrammiToAllMeals(dayData);
+            }
             const today = new Date().toISOString().split('T')[0];
 
             await MealPlanModel.upsert({
                 diet_id: diet.id,
                 user_id: req.user.id,
                 week_start: today,
-                plan_json: JSON.stringify(plan)
+                plan_json: JSON.stringify(planWithGrammi)
             });
 
-            res.json({ success: true, plan });
+            res.json({ success: true, plan: planWithGrammi });
         } catch (err) {
             console.error('Regenerate error:', err);
             res.status(500).json({ error: 'Errore rigenerazione piano.' });

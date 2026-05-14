@@ -361,15 +361,26 @@ const SIMPLE_ITALIAN_RECIPES = {
             grassi: 22
         },
         {
-            nome: 'Pasta e Fagioli',
-            ingredienti: ['Pasta', 'Fagioli borlotto', 'Pomodoro', 'Rosmarino', 'Aglio'],
+            nome: 'Pasta e ceci',
+            ingredienti: ['Pasta', 'Ceci', 'Rosmarino', 'Aglio', 'Olio', 'Pomodoro'],
             tempo: '30 min',
             difficolta: 'Facile',
-            preparazione: 'Soffriggi aglio e rosmarino. Aggiungi i fagioli e il pomodoro. Aggiungi la pasta e cuoci insieme.',
-            calorie: 460,
-            proteine: 16,
-            carboidrati: 70,
-            grassi: 12
+            preparazione: 'Soffriggi aglio e rosmarino. Aggiungi ceci e pomodoro. Cuoci la pasta insieme ai ceci.',
+            calorie: 520,
+            proteine: 18,
+            carboidrati: 75,
+            grassi: 16
+        },
+        {
+            nome: 'Zuppa di lenticchie',
+            ingredienti: ['Lenticchie', 'Carote', 'Sedano', 'Cipolla', 'Brodo', 'Prezzemolo'],
+            tempo: '40 min',
+            difficolta: 'Facile',
+            preparazione: 'Soffriggi le verdure. Aggiungi le lenticchie e il brodo. Cuoci per 30 minuti.',
+            calorie: 380,
+            proteine: 20,
+            carboidrati: 55,
+            grassi: 8
         },
         {
             nome: 'Risotto ai Funghi',
@@ -405,14 +416,47 @@ const SIMPLE_ITALIAN_RECIPES = {
             grassi: 26
         },
         {
-            nome: 'Petto di Pollo alla Griglia con Verdure',
-            ingredienti: ['Petto di pollo', 'Zucchine', 'Peperoni', 'Olio', 'Rosmarino'],
-            tempo: '25 min',
+            nome: 'Pesce spada alla griglia',
+            ingredienti: ['Trancia di pesce spada', 'Limone', 'Erbe aromatiche', 'Olio', 'Insalata'],
+            tempo: '15 min',
             difficolta: 'Facile',
-            preparazione: 'Griglia il petto di pollo. Taglia le verdure e grigliale. Servi insieme con olio e rosmarino.',
+            preparazione: 'Griglia il pesce spada con erbe e limone. Servi con insalata mista.',
+            calorie: 320,
+            proteine: 38,
+            carboidrati: 5,
+            grassi: 18
+        },
+        {
+            nome: 'Calamari ripieni',
+            ingredienti: ['Calamari', 'Mollica', 'Prezzemolo', 'Aglio', 'Pomodoro', 'Vino bianco'],
+            tempo: '30 min',
+            difficolta: 'Media',
+            preparazione: 'Prepara il ripieno con mollica, prezzemolo e aglio. Riempi i calamari. Cuoci in padella con pomodoro e vino.',
+            calorie: 420,
+            proteine: 32,
+            carboidrati: 25,
+            grassi: 22
+        },
+        {
+            nome: 'Omelette con verdure',
+            ingredienti: ['Uova', 'Zucchine', 'Pomodori', 'Cipolla', 'Formaggio', 'Erbe'],
+            tempo: '15 min',
+            difficolta: 'Facile',
+            preparazione: 'Sbatti le uova con le verdure grigliate. Cuoci l\'omelette e aggiungi formaggio fuso.',
             calorie: 380,
-            proteine: 35,
-            carboidrati: 15,
+            proteine: 22,
+            carboidrati: 12,
+            grassi: 28
+        },
+        {
+            nome: 'Tonno in insalata',
+            ingredienti: ['Tonno fresco', 'Insalata mista', 'Pomodori', 'Cetrioli', 'Olive', 'Olio'],
+            tempo: '10 min',
+            difficolta: 'Facile',
+            preparazione: 'Griglia il tonno. Disponi l\'insalata con pomodori, cetrioli e olive. Aggiungi il tonno e condisci con olio.',
+            calorie: 350,
+            proteine: 38,
+            carboidrati: 10,
             grassi: 18
         },
         {
@@ -938,7 +982,7 @@ const SIMPLE_ITALIAN_RECIPES = {
         },
         {
             nome: 'Frutta Secca',
-            ingredienti: ['Mandorle', 'Noci', 'Nocciole', 'Cacca'],
+            ingredienti: ['Mandorle', 'Noci', 'Nocciole', 'Anacardi'],
             tempo: '1 min',
             difficolta: 'Facile',
             preparazione: 'Mescola una manciata di frutta secca mista. Porzione consigliata: 30g.',
@@ -1036,15 +1080,37 @@ const SIMPLE_ITALIAN_RECIPES = {
             grassi: 4
         },
         {
-            nome: 'Panino con petto di pollo',
-            ingredienti: ['Panino integrale', 'Petto di pollo', 'Insalata', 'Maionese light'],
-            tempo: '10 min',
+            nome: 'Gallette con avocado',
+            ingredienti: ['Gallette di riso', 'Avocado', 'Sale', 'Limone'],
+            tempo: '3 min',
             difficolta: 'Facile',
-            preparazione: 'Griglia il petto di pollo, taglialo a fette e mettilo nel panino con insalata e maionese.',
-            calorie: 380,
-            proteine: 32,
-            carboidrati: 35,
+            preparazione: 'Schiaccia lavocado con un filo di limone e sale, spalma sulle gallette.',
+            calorie: 200,
+            proteine: 3,
+            carboidrati: 22,
             grassi: 12
+        },
+        {
+            nome: 'Pomodori con mozzarella',
+            ingredienti: ['Pomodori', 'Mozzarella', 'Basilico', 'Olio d\'oliva'],
+            tempo: '5 min',
+            difficolta: 'Facile',
+            preparazione: 'Affetta pomodori e mozzarella, aggiungi basilico fresco e un filo d\'olio.',
+            calorie: 240,
+            proteine: 12,
+            carboidrati: 8,
+            grassi: 18
+        },
+        {
+            nome: 'Mix di semi e frutta secca',
+            ingredienti: ['Semi di zucca', 'Mandorle', 'Noci', 'Uvetta'],
+            tempo: '1 min',
+            difficolta: 'Facile',
+            preparazione: 'Mescola una porzione di semi e frutta secca in una ciotolina.',
+            calorie: 220,
+            proteine: 8,
+            carboidrati: 15,
+            grassi: 16
         },
         {
             nome: 'Uova e pane integrale',
@@ -1058,92 +1124,48 @@ const SIMPLE_ITALIAN_RECIPES = {
             grassi: 22
         },
         {
-            nome: 'Riso con pollo e verdure',
-            ingredienti: ['Riso', 'Petto di pollo', 'Broccoli', 'Salsa di soia'],
-            tempo: '20 min',
-            difficolta: 'Facile',
-            preparazione: 'Cuoci il riso e il pollo. In una padella, salta le verdure e aggiungi il pollo. Mescola con il riso.',
-            calorie: 480,
-            proteine: 38,
-            carboidrati: 50,
-            grassi: 12
-        },
-        {
-            nome: 'Toast con tacchino e formaggio',
-            ingredienti: ['Pane integrale', 'Fesa di tacchino', 'Formaggio svizzero', 'Pomodoro'],
-            tempo: '8 min',
-            difficolta: 'Facile',
-            preparazione: 'Composi il toast con il tacchino, il formaggio e il pomodoro. Griglia fino a che il formaggio non si scioglie.',
-            calorie: 360,
-            proteine: 28,
-            carboidrati: 32,
-            grassi: 14
-        },
-        {
-            nome: 'Yogurt proteico con cereali',
-            ingredienti: ['Yogurt proteico', 'Cereali integrali', 'Noci', 'Miele'],
+            nome: 'Cracker integrali conPhiladelphia',
+            ingredienti: ['Cracker integrali', 'Formaggio spalmabile', 'Cetriolo'],
             tempo: '3 min',
             difficolta: 'Facile',
-            preparazione: 'Versa lo yogurt in una ciotola, aggiungi i cereali, le noci tritate e un filo di miele.',
-            calorie: 340,
-            proteine: 22,
-            carboidrati: 38,
-            grassi: 12
+            preparazione: 'Spalma il formaggio sui cracker e aggiungi fette di cetriolo.',
+            calorie: 220,
+            proteine: 8,
+            carboidrati: 25,
+            grassi: 10
         },
         {
-            nome: 'Barretta proteica e frutta secca',
-            ingredienti: ['Barretta proteica', 'Mandorle', 'Noci', 'Cacao'],
-            tempo: '2 min',
-            difficolta: 'Facile',
-            preparazione: 'Mangia la barretta proteica insieme a un mix di mandorle e noci.',
-            calorie: 420,
-            proteine: 25,
-            carboidrati: 35,
-            grassi: 22
-        },
-        {
-            nome: 'Toast con affettato e formaggio',
-            ingredienti: ['Pane', 'Prosciutto cotto', 'Mozzarella', 'Burro', 'Ketchup'],
+            nome: 'Macedonia di frutta fresca',
+            ingredienti: ['Mela', 'Banana', 'Arancia', 'Kiwi', 'Uva'],
             tempo: '5 min',
             difficolta: 'Facile',
-            preparazione: 'Tosta il pane, aggiungi prosciutto e mozzarella, burro e ketchup.',
-            calorie: 480,
-            proteine: 22,
-            carboidrati: 40,
-            grassi: 26
+            preparazione: 'Lava e taglia tutta la frutta a pezzetti. Mescola in una ciotola.',
+            calorie: 180,
+            proteine: 2,
+            carboidrati: 42,
+            grassi: 1
         },
         {
-            nome: 'Smoothie iperproteico',
-            ingredienti: ['Latte', 'Whey protein', 'Banana', 'Burro d\'arachidi', 'Avena'],
+            nome: 'Cheese cake proteico',
+            ingredienti: ['Formaggio fresco', 'Yogurt greco', 'Miele', 'Vaniglia'],
             tempo: '5 min',
             difficolta: 'Facile',
-            preparazione: 'Frulla latte, whey, banana, burro d\'arachidi e avena fino a ottenere un smoothie cremoso.',
-            calorie: 520,
-            proteine: 40,
-            carboidrati: 45,
-            grassi: 18
+            preparazione: 'Mescola il formaggio fresco con lo yogurt, aggiungi miele e vaniglia. Lascia raffreddare.',
+            calorie: 180,
+            proteine: 16,
+            carboidrati: 15,
+            grassi: 5
         },
         {
-            nome: 'Cioccolato fondente e nocciole',
-            ingredienti: ['Cioccolato fondente (100g)', 'Nocciole', 'Mandorle'],
-            tempo: '2 min',
-            difficolta: 'Facile',
-            preparazione: 'Mangia il cioccolato fondente con un mix di nocciole e mandorle.',
-            calorie: 550,
-            proteine: 12,
-            carboidrati: 40,
-            grassi: 38
-        },
-        {
-            nome: 'Panino con nutella',
-            ingredienti: ['Panino', 'Nutella', 'Banana'],
+            nome: 'Gelato proteico',
+            ingredienti: ['Gelato alla vaniglia', 'Proteine in polvere', 'Noci'],
             tempo: '3 min',
             difficolta: 'Facile',
-            preparazione: 'Apri il panino, spalma Nutella generosa, aggiungi fette di banana.',
-            calorie: 580,
-            proteine: 10,
-            carboidrati: 65,
-            grassi: 30
+            preparazione: 'Scolpisci il gelato, aggiungi un scoop di proteine e qualche noce.',
+            calorie: 250,
+            proteine: 22,
+            carboidrati: 20,
+            grassi: 10
         }
     ],
     sgarro: [
@@ -1357,7 +1379,7 @@ function shuffle(arr) {
     return a;
 }
 
-async function generateMealPlan(goal, calorieTarget = 2000) {
+async function generateMealPlan(goal, calorieTarget = 2000, macroTargets = null) {
     const colazioni = shuffle([...SIMPLE_ITALIAN_RECIPES.colazione]);
     const pranzi = shuffle([...SIMPLE_ITALIAN_RECIPES.pranzo]);
     const cene = shuffle([...SIMPLE_ITALIAN_RECIPES.cena]);
@@ -1372,32 +1394,34 @@ async function generateMealPlan(goal, calorieTarget = 2000) {
     ];
     const sgarroPranzoCena = SIMPLE_ITALIAN_RECIPES.sgarro.slice(5);
 
-    const getMealsForTarget = (colazioniPool, pranziPool, cenePool, spuntiniPool, targetCal) => {
+    const getMealsForTarget = (colazioniPool, pranziPool, cenePool, spuntiniPool, targetCal, macroTargets = null) => {
         const maxAttempts = 10000;
-        const tolerance = 20;
-        
+        const calTolerance = targetCal * 0.03;
+        const macroTolerance = 10;
+
         const sortedColazioni = [...colazioniPool].sort((a, b) => b.calorie - a.calorie);
         const sortedPranzi = [...pranziPool].sort((a, b) => b.calorie - a.calorie);
         const sortedCene = [...cenePool].sort((a, b) => b.calorie - a.calorie);
-        
+
         const highCalSpuntini = spuntiniPool.filter(s => s.calorie >= 200).sort((a, b) => b.calorie - a.calorie);
         const normalSpuntini = [...spuntiniPool].sort((a, b) => b.calorie - a.calorie);
+
+        let bestCombo = null;
+        let bestScore = Infinity;
 
         for (let attempt = 0; attempt < maxAttempts; attempt++) {
             const colazione = colazioniPool[Math.floor(Math.random() * colazioniPool.length)];
             const pranzo = pranziPool[Math.floor(Math.random() * pranziPool.length)];
             const cena = cenePool[Math.floor(Math.random() * cenePool.length)];
-            
+
             let spuntiniSelezionati = [];
-            let spuntiniCal = 0;
             let numSnacks = 2;
-            
             if (targetCal >= 2800) numSnacks = 3;
             else if (targetCal < 1800) numSnacks = 1;
-            
-            const snackPool = targetCal >= 2500 ? 
+
+            const snackPool = targetCal >= 2500 ?
                 [...highCalSpuntini, ...normalSpuntini] : normalSpuntini;
-            
+
             const usedSnacks = new Set();
             for (let s = 0; s < numSnacks; s++) {
                 const available = snackPool.filter(sn => !usedSnacks.has(sn.nome));
@@ -1405,75 +1429,53 @@ async function generateMealPlan(goal, calorieTarget = 2000) {
                 const snack = available[Math.floor(Math.random() * available.length)];
                 spuntiniSelezionati.push(snack);
                 usedSnacks.add(snack.nome);
-                spuntiniCal += snack.calorie;
             }
 
-            const totalCal = colazione.calorie + pranzo.calorie + cena.calorie + spuntiniCal;
-            const diff = Math.abs(totalCal - targetCal);
+            const totalCal = colazione.calorie + pranzo.calorie + cena.calorie +
+                spuntiniSelezionati.reduce((sum, s) => sum + s.calorie, 0);
+            const totalProt = colazione.proteine + pranzo.proteine + cena.proteine +
+                spuntiniSelezionati.reduce((sum, s) => sum + s.proteine, 0);
+            const totalCarb = colazione.carboidrati + pranzo.carboidrati + cena.carboidrati +
+                spuntiniSelezionati.reduce((sum, s) => sum + s.carboidrati, 0);
+            const totalFat = colazione.grassi + pranzo.grassi + cena.grassi +
+                spuntiniSelezionati.reduce((sum, s) => sum + s.grassi, 0);
 
-            if (diff <= tolerance) {
-                return {
+            let score = Math.abs(totalCal - targetCal);
+
+            if (macroTargets) {
+                const protDiff = Math.abs(totalProt - macroTargets.protein_g);
+                const carbDiff = Math.abs(totalCarb - macroTargets.carbs_g);
+                const fatDiff = Math.abs(totalFat - macroTargets.fat_g);
+                score += (protDiff + carbDiff + fatDiff) * 5;
+            }
+
+            if (score < bestScore) {
+                bestScore = score;
+                bestCombo = {
                     colazione,
                     spuntino1: spuntiniSelezionati[0] || null,
                     spuntino2: spuntiniSelezionati[1] || null,
                     spuntino3: spuntiniSelezionati[2] || null,
                     pranzo,
                     cena,
-                    totalCal
+                    totalCal,
+                    totalProt,
+                    totalCarb,
+                    totalFat
                 };
-            }
-        }
-        
-        let bestCombo = null;
-        let bestDiff = Infinity;
-        
-        for (let c of sortedColazioni) {
-            for (let p of sortedPranzi) {
-                for (let ce of sortedCene) {
-                    const baseCal = c.calorie + p.calorie + ce.calorie;
-                    const remainingCal = targetCal - baseCal;
-                    
-                    let snacksUsed = [];
-                    let snackCal = 0;
-                    let numSnacks = 2;
-                    if (targetCal >= 2800) numSnacks = 3;
-                    else if (targetCal < 1800) numSnacks = 1;
-                    
-                    const sortedSnacks = (targetCal >= 2500 ? highCalSpuntini : normalSpuntini);
-                    
-                    if (remainingCal > 0) {
-                        for (let i = 0; i < numSnacks && i < sortedSnacks.length; i++) {
-                            const snack = sortedSnacks[i];
-                            if (!snacksUsed.find(s => s.nome === snack.nome)) {
-                                if (snackCal + snack.calorie <= remainingCal + 100) {
-                                    snacksUsed.push(snack);
-                                    snackCal += snack.calorie;
-                                }
-                            }
-                        }
+
+                const calDiff = Math.abs(totalCal - targetCal);
+                if (calDiff <= calTolerance) {
+                    if (macroTargets) {
+                        const protOk = Math.abs(totalProt - macroTargets.protein_g) <= macroTolerance;
+                        const carbOk = Math.abs(totalCarb - macroTargets.carbs_g) <= macroTolerance;
+                        const fatOk = Math.abs(totalFat - macroTargets.fat_g) <= macroTolerance;
+                        if (protOk && carbOk && fatOk) break;
+                    } else {
+                        break;
                     }
-                    
-                    const totalCal = baseCal + snackCal;
-                    const diff = Math.abs(totalCal - targetCal);
-                    
-                    if (diff < bestDiff) {
-                        bestDiff = diff;
-                        bestCombo = {
-                            colazione: c,
-                            pranzo: p,
-                            cena: ce,
-                            spuntino1: snacksUsed[0] || null,
-                            spuntino2: snacksUsed[1] || null,
-                            spuntino3: snacksUsed[2] || null,
-                            totalCal
-                        };
-                    }
-                    
-                    if (diff <= tolerance) break;
                 }
-                if (bestCombo && Math.abs(bestCombo.totalCal - targetCal) <= tolerance) break;
             }
-            if (bestCombo && Math.abs(bestCombo.totalCal - targetCal) <= tolerance) break;
         }
 
         return bestCombo;
@@ -1504,14 +1506,15 @@ async function generateMealPlan(goal, calorieTarget = 2000) {
             };
         } else {
             const meals = getMealsForTarget(
-                colazioni, 
-                pranzi, 
-                cene, 
-                spuntini, 
-                calorieTarget
+                colazioni,
+                pranzi,
+                cene,
+                spuntini,
+                calorieTarget,
+                macroTargets
             );
-            
-            piano[giorno] = {
+
+            piano[giorno] = addGrammiToAllMeals({
                 colazione: meals.colazione,
                 spuntino1: meals.spuntino1,
                 pranzo: meals.pranzo,
@@ -1519,8 +1522,11 @@ async function generateMealPlan(goal, calorieTarget = 2000) {
                 spuntino3: meals.spuntino3 || null,
                 cena: meals.cena,
                 totalCalorie: meals.totalCal,
+                totalProteine: meals.totalProt,
+                totalCarboidrati: meals.totalCarb,
+                totalGrassi: meals.totalFat,
                 isSgarro: false
-            };
+            });
         }
     }
 
@@ -1536,7 +1542,11 @@ async function getMealDetail(mealName) {
             ...SIMPLE_ITALIAN_RECIPES.spuntino,
             ...SIMPLE_ITALIAN_RECIPES.sgarro
         ];
-        return allRecipes.find(r => r.nome === mealName) || null;
+        const meal = allRecipes.find(r => r.nome === mealName);
+        if (meal) {
+            meal.ingredientiConGrammi = getIngredientiGrammi(meal.ingredienti);
+        }
+        return meal || null;
     } catch (error) {
         console.error(`Error fetching meal detail for ${mealName}:`, error);
         return null;
@@ -1557,8 +1567,92 @@ async function getRandomMeals(count = 6) {
     }
 }
 
+const INGREDIENTI_GRAMMI = {
+    'Yogurt greco': 150, 'Yogurt': 150, 'Yogurt proteico': 150, 'Muesli': 50, 'Granola': 40,
+    'Fragole': 100, 'Lamponi': 80, 'Mirtilli': 80, 'Banana': 120, 'Uva': 100,
+    'Mela': 150, 'Arancia': 150, 'Kiwi': 100, 'Frutta fresca': 120,
+    'Miele': 20, 'Sciroppo d\'acero': 30,
+    'Pane integrale': 60, 'Pane': 60, 'Fette biscottate': 30, 'Biscotti integrali': 40,
+    'Marmellata': 30, 'Nutella': 40, 'Burro': 15, 'Formaggio': 30, 'Formaggio spalmabile': 50,
+    'Latte': 250, 'Caffè': 30, 'Cacao in polvere': 10, 'Cacao': 10,
+    'Zucchero': 10, 'Croissant': 80, 'Brioche': 80, 'Pancake': 100,
+    'Farina': 80, 'Uova': 60, 'Lievito': 5, 'Cannella': 3,
+    'Noci': 20, 'Mandorle': 20, 'Nocciole': 20, 'Anacardi': 25, 'Semi di zucca': 20,
+    'Succo d\'arancia': 200, 'Cereali': 50, 'Cioccolato': 30, 'Cioccolato fondente 85%': 40,
+    'Riso': 80, 'Pasta': 80, 'Pane pita': 60, 'Cracker': 30, 'Gallette di riso': 25,
+    'Petto di pollo': 150, 'Petto di tacchino': 150, 'Pollo': 150,
+    'Salmone': 150, 'Merluzzo': 150, 'Tonno': 120, 'Pesce': 150, 'Trancia di pesce spada': 150,
+    'Tonno fresco': 150, 'Calamari': 150,
+    'Uovo': 60, 'Prosciutto cotto': 60, 'Bresaola': 50, 'Fesa di tacchino': 80,
+    'Parmigiano': 20, 'Grana Padano': 20, 'Mozzarella': 80, 'Formaggio svizzero': 40, 'Ricotta': 100,
+    'Cottage cheese': 120, 'Formaggio fresco': 100, 'Feta': 60,
+    'Insalata': 80, 'Verdure miste': 100, 'Pomodori': 100, 'Sedano': 50, 'Cetriolo': 80,
+    'Carote': 80, 'Peperoni': 80, 'Zucchine': 120, 'Broccoli': 100,
+    'Olio d\'oliva': 15, 'Olio': 10, 'Aceto': 10,
+    'Sale': 3, 'Pepe': 2, 'Basilico': 10, 'Prezzemolo': 10, 'Erbe aromatiche': 10,
+    'Pomodori pelati': 200, 'Salsa di pomodoro': 100, 'Passata di pomodoro': 100,
+    'Patate': 200, 'Patate dolci': 200, 'Zucca': 150, 'Piselli': 80,
+    'Fagioli': 150, 'Lenticchie': 150, 'Ceci': 150, 'Fagioli borlotto': 150,
+    'Legumi': 150, 'Fagiolini': 100,
+    'Rucola': 40, 'Spinaci': 60,
+    'Melanzane': 120, 'Cipolla': 60, 'Aglio': 5,
+    'Cavolfiore': 100, 'Asparagi': 100, 'Funghi champignon': 100,
+    'Avocado': 100, 'Olive': 40, 'Capperi': 15,
+    'Acciughe': 30, 'Wurstel': 80, 'Salsiccia': 80, 'Guanciale': 60, 'Bacon': 50,
+    'Tacchino': 150, 'Manzo': 150, 'Maiale a cubetti': 150, 'Bistecca': 200, 'Filetto di manzo': 150, 'Cotoletta': 150,
+    'Hamburger di manzo': 150, 'Macinato di manzo': 150, 'Fettine di vitello': 150, 'Fettine di pollo': 150,
+    'Arrosto di vitello': 200, 'Filetto di salmone': 150,
+    'Hummus': 50, 'Philadelphia': 60, 'Maionese light': 30,
+    'Gelato alla vaniglia': 100, 'Proteine in polvere': 30, 'Whey protein': 30,
+    'Burro d\'arachidi': 30, 'Avena': 40, 'Uvetta': 30,
+    'Cornetto': 80, 'Pane brioche': 80, 'Panino': 60, 'Panino integrale': 60, 'Panino brioche': 80,
+    'Impasto pizza': 300, 'Hamburger': 150,
+    'Riso sushi': 100, 'Salmone': 80, 'Nori': 5,
+    'Pane kebab': 150, 'Carne kebab': 150,
+    'Pecorino': 30, 'Panna': 50, 'Salvia': 5,
+    'Pesto genovese': 40, 'Pomodori cherry': 80, 'Pinoli': 10,
+    'Ravioli': 200, 'Orzo': 80, 'Quinoa': 80,
+    'Barretta proteica': 40, 'Cereali integrali': 40,
+    'Cottura': 50, 'Limone': 30, 'Aneto': 5, 'Rosmarino': 10, 'Vaniglia': 5,
+    'Peperoncino': 5, 'Sciroppo d\'acero': 30, 'Frutti rossi': 100, 'Frutta': 100,
+    'Mollica': 50, 'Vino bianco': 50, 'Brodo': 200, 'Brodo vegetale': 200,
+    'Pangrattato': 30, 'Farina di mais': 50, 'Cottura lenta': 200,
+    'Patatine fritte': 100, 'Chips': 30
+};
+
+const INGREDIENTI_DEFAULT = 80;
+
+const getIngredientiGrammi = (ingredienti) => {
+    return ingredienti.map(ing => {
+        const trimmed = ing.trim();
+        const gram = INGREDIENTI_GRAMMI[trimmed] || INGREDIENTI_DEFAULT;
+        return { nome: trimmed, grammi: gram };
+    });
+};
+
+const addGrammiToMeal = (meal) => {
+    if (!meal) return meal;
+    const grammi = getIngredientiGrammi(meal.ingredienti || []);
+    meal.totalGrammi = grammi.reduce((sum, ing) => sum + ing.grammi, 0);
+    return meal;
+};
+
+const addGrammiToAllMeals = (dayData) => {
+    const result = { ...dayData };
+    if (result.colazione) result.colazione = addGrammiToMeal(result.colazione);
+    if (result.pranzo) result.pranzo = addGrammiToMeal(result.pranzo);
+    if (result.cena) result.cena = addGrammiToMeal(result.cena);
+    if (result.spuntino1) result.spuntino1 = addGrammiToMeal(result.spuntino1);
+    if (result.spuntino2) result.spuntino2 = addGrammiToMeal(result.spuntino2);
+    if (result.spuntino3) result.spuntino3 = addGrammiToMeal(result.spuntino3);
+    return result;
+};
+
 module.exports = {
     generateMealPlan,
     getMealDetail,
-    getRandomMeals
+    getRandomMeals,
+    getIngredientiGrammi,
+    addGrammiToMeal,
+    addGrammiToAllMeals
 };

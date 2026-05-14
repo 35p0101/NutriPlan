@@ -39,6 +39,7 @@ const ApiKeyModel = {
     },
 
     async findAllByUser(userId) {
+        if (!supabaseAdmin) return [];
         const { data, error } = await supabaseAdmin
             .from('api_keys')
             .select('id, name, api_key, is_premium, premium_expires_at, created_at, last_used_at')

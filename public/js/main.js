@@ -1,4 +1,53 @@
 document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.alert').forEach(function(alert) {
+        setTimeout(function() {
+            alert.style.opacity = '0';
+            alert.style.transform = 'translateX(20px)';
+            setTimeout(function() {
+                alert.remove();
+            }, 300);
+        }, 3000);
+    });
+
+    const modal = document.getElementById('confirmModal');
+    const modalMessage = document.getElementById('modalMessage');
+    const modalCancel = document.getElementById('modalCancel');
+    const modalConfirm = document.getElementById('modalConfirm');
+    let modalCallback = null;
+
+    window.showConfirm = function(message, onConfirm) {
+        if (!modal) return onConfirm ? onConfirm() : null;
+        modalMessage.textContent = message;
+        modal.style.display = 'flex';
+        modalCallback = onConfirm;
+    };
+
+    window.hideModal = function() {
+        if (modal) modal.style.display = 'none';
+        modalCallback = null;
+    };
+
+    if (modalCancel) {
+        modalCancel.addEventListener('click', hideModal);
+    }
+
+    if (modalConfirm) {
+        modalConfirm.addEventListener('click', function() {
+            if (modalCallback) modalCallback();
+            hideModal();
+        });
+    }
+
+    if (modal) {
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) hideModal();
+        });
+    }
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') hideModal();
+    });
+
     const currentPage = window.location.pathname;
     const menuItems = document.querySelectorAll('.menu-item');
 
@@ -69,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const profilePicInput = document.getElementById('profile_picture');
     const profilePicBase64 = document.getElementById('profile_picture_base64');
     const profileAvatarLarge = document.querySelector('.profile-avatar-large');
-    const profileForm = document.querySelector('.profile-pic-form-inline');
+    const updateForm = document.querySelector('.update-pic-form');
     const cancelBtn = document.getElementById('cancel-pic-btn');
     let originalAvatarHtml = '';
     let originalAvatarClass = '';
@@ -80,33 +129,36 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     if (profilePicInput && profilePicBase64) {
+        const saveBtn = document.getElementById('save-pic-btn');
+
         profilePicInput.addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
-                if (file.size > 500 * 1024) {
-                    alert('File troppo grande. Max 500KB.');
+                if (file.size > 2 * 1024 * 1024) {
+                    showMessage('File troppo grande. Max 2MB.', 'error');
                     this.value = '';
                     return;
                 }
-                
+
                 if (cancelBtn) cancelBtn.style.display = 'inline-block';
-                
+                if (saveBtn) saveBtn.style.display = 'inline-block';
+
                 const reader = new FileReader();
                 reader.onload = function(event) {
                     profilePicBase64.value = event.target.result;
-                    
+
                     if (profileAvatarLarge) {
                         profileAvatarLarge.innerHTML = `<img src="${event.target.result}" alt="Profile">`;
                         profileAvatarLarge.classList.add('profile-avatar-img');
                     }
                 };
                 reader.onerror = function() {
-                    alert('Errore nella lettura del file');
+                    showMessage('Errore nella lettura del file', 'error');
                 };
                 reader.readAsDataURL(file);
             }
         });
-        
+
         if (cancelBtn) {
             cancelBtn.addEventListener('click', function() {
                 profilePicInput.value = '';
@@ -116,14 +168,18 @@ document.addEventListener('DOMContentLoaded', function() {
                     profileAvatarLarge.className = originalAvatarClass;
                 }
                 cancelBtn.style.display = 'none';
+                if (saveBtn) saveBtn.style.display = 'none';
             });
         }
-        
-        if (profileForm) {
-            profileForm.addEventListener('submit', function(e) {
+
+        if (updateForm) {
+            updateForm.addEventListener('submit', function(e) {
                 if (!profilePicBase64.value) {
                     e.preventDefault();
-                    alert('Seleziona una foto prima di salvare');
+                    showMessage('Seleziona una foto prima di salvare', 'error');
+                } else {
+                    if (saveBtn) saveBtn.style.display = 'none';
+                    if (cancelBtn) cancelBtn.style.display = 'none';
                 }
             });
         }

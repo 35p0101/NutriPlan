@@ -54,21 +54,28 @@
                 </div>
             </div>
             
-            <form action="/profile/update-picture" method="POST" class="profile-pic-form-inline">
-                <div class="profile-pic-inline">
-                    <input type="file" id="profile_picture" name="profile_picture" accept="image/jpeg,image/jpg,image/png,image/webp">
-                    <label for="profile_picture" class="btn-secondary btn-sm">Cambia foto</label>
-                    <input type="hidden" id="profile_picture_base64" name="profile_picture_base64">
-                    <button type="submit" class="btn-primary btn-sm">Salva</button>
-                    <button type="button" class="btn-ghost btn-sm" id="cancel-pic-btn" style="display: none;">Annulla</button>
+            <div class="profile-pic-form-inline">
+                <div class="profile-pic-buttons">
+                    <form action="/profile/update-picture" method="POST" class="update-pic-form">
+                        <input type="file" id="profile_picture" name="profile_picture" accept="image/jpeg,image/jpg,image/png,image/webp">
+                        <label for="profile_picture" class="btn-secondary btn-sm">Cambia foto</label>
+                        <input type="hidden" id="profile_picture_base64" name="profile_picture_base64">
+                        <button type="submit" class="btn-primary btn-sm" id="save-pic-btn" style="display: none;">Salva</button>
+                        <button type="button" class="btn-ghost btn-sm" id="cancel-pic-btn" style="display: none;">Annulla</button>
+                    </form>
+                    <% if (user.profile_picture) { %>
+                    <form action="/profile/remove-picture" method="POST" class="remove-pic-form" id="removePicForm">
+                        <button type="submit" class="btn-ghost btn-sm remove-pic-btn">Rimuovi foto</button>
+                    </form>
+                    <% } %>
                 </div>
                 <span class="pic-hint">JPG, PNG o WebP. Max 2MB.</span>
-            </form>
+            </div>
         </div>
 
         <div class="profile-grid">
             <div class="box">
-                <h3>Informazioni Personali</h3>
+                <h3>Account</h3>
                 <div class="box-content">
                     <div class="info-row">
                         <span class="info-label">Username</span>
@@ -91,6 +98,27 @@
                         <span class="info-value"><%= user.sex === 'M' ? 'Maschio' : 'Femmina' %></span>
                     </div>
                 </div>
+                <button type="button" class="btn-secondary btn-sm" id="changePasswordBtn" style="margin-top: 1rem;">Cambia Password</button>
+                <div id="passwordChangeForm" style="display: none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255, 255, 255, 0.08);">
+                    <form action="/profile/change-password" method="POST" class="password-form">
+                        <div class="form-group">
+                            <label for="currentPassword">Password Attuale</label>
+                            <input type="password" id="currentPassword" name="currentPassword" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="newPassword">Nuova Password</label>
+                            <input type="password" id="newPassword" name="newPassword" required minlength="6">
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">Conferma Nuova Password</label>
+                            <input type="password" id="confirmPassword" name="confirmPassword" required minlength="6">
+                        </div>
+                        <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+                            <button type="submit" class="btn-primary btn-sm">Salva</button>
+                            <button type="button" class="btn-ghost btn-sm" id="cancelPasswordBtn">Annulla</button>
+                        </div>
+                    </form>
+                </div>
             </div>
 
             <% if (typeof hasPremium !== 'undefined' && hasPremium) { %>
@@ -108,6 +136,40 @@
                             <% } %>
                         </div>
                     </div>
+                </div>
+                <form action="/profile/cancel-premium" method="POST" style="margin-top: 1rem;">
+                    <button type="submit" class="btn-ghost btn-sm">Annulla Abbonamento</button>
+                </form>
+            </div>
+            <% } else { %>
+            <div class="box free-plan-box">
+                <h3>Piano Base</h3>
+                <div class="box-content">
+                    <div class="free-plan-status" style="color: #6b7280;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        <div>
+                            <strong>Piano Base</strong>
+                            <span>API Keys: <%= typeof keyCount !== 'undefined' ? keyCount : 0 %>/2</span>
+                        </div>
+                    </div>
+                    <% if (typeof keyCount !== 'undefined' && keyCount >= 2) { %>
+                    <div class="free-plan-features">
+                        <p style="color: #ef4444;">Limite raggiunto!</p>
+                    </div>
+                    <% } else { %>
+                    <div class="free-plan-features">
+                        <p>Passa a Premium per API Keys illimitate.</p>
+                    </div>
+                    <% } %>
+                    <a href="/api-keys/premium" class="btn-premium">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                        </svg>
+                        Passa a Premium - 2€/mese
+                    </a>
                 </div>
             </div>
             <% } %>
@@ -194,5 +256,49 @@
     </main>
 
     <script src="/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const changePasswordBtn = document.getElementById('changePasswordBtn');
+            const passwordChangeForm = document.getElementById('passwordChangeForm');
+            const cancelPasswordBtn = document.getElementById('cancelPasswordBtn');
+
+            if (changePasswordBtn) {
+                changePasswordBtn.addEventListener('click', function() {
+                    passwordChangeForm.style.display = 'block';
+                    changePasswordBtn.style.display = 'none';
+                });
+            }
+
+            if (cancelPasswordBtn) {
+                cancelPasswordBtn.addEventListener('click', function() {
+                    passwordChangeForm.style.display = 'none';
+                    changePasswordBtn.style.display = 'inline-flex';
+                    document.getElementById('currentPassword').value = '';
+                    document.getElementById('newPassword').value = '';
+                    document.getElementById('confirmPassword').value = '';
+                });
+            }
+
+            const cancelPremiumForm = document.querySelector('form[action="/profile/cancel-premium"]');
+            if (cancelPremiumForm) {
+                cancelPremiumForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    showConfirm('Sei sicuro di voler annullare il tuo abbonamento Premium?', function() {
+                        cancelPremiumForm.submit();
+                    });
+                });
+            }
+
+            const removePicForm = document.getElementById('removePicForm');
+            if (removePicForm) {
+                removePicForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    showConfirm('Sei sicuro di voler rimuovere la foto profilo?', function() {
+                        removePicForm.submit();
+                    });
+                });
+            }
+        });
+    </script>
 </body>
 </html>

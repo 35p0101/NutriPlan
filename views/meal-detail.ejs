@@ -129,29 +129,32 @@
         .meal-section h2 svg {
             color: var(--green-soft);
         }
-        .ingredients-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 0.75rem;
-        }
-        .ingredient-chip {
+        .ingredients-list {
             display: flex;
-            align-items: center;
+            flex-direction: column;
             gap: 0.5rem;
-            padding: 0.875rem 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .ingredient-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1rem;
             background: var(--bg-secondary);
             border-radius: 8px;
-            font-size: 0.9rem;
-            color: var(--text-primary);
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
-        .ingredient-chip::before {
-            content: "";
-            width: 8px;
-            height: 8px;
-            background: var(--green-soft);
-            border-radius: 50%;
-            flex-shrink: 0;
+        .ingredient-name {
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+        .ingredient-grammi-badge {
+            font-size: 0.85rem;
+            color: var(--green-soft);
+            font-weight: 600;
+            background: rgba(123, 219, 142, 0.1);
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
         }
         .preparation-box {
             background: var(--bg-secondary);
@@ -196,9 +199,24 @@
             .meal-meta {
                 gap: 0.75rem;
             }
-            .ingredients-grid {
-                grid-template-columns: 1fr;
+            .total-grammi {
+                margin-top: 0;
             }
+        }
+        .total-grammi {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+        .total-grammi strong {
+            color: var(--green-soft);
+            font-size: 1.1rem;
         }
     </style>
 </head>
@@ -255,7 +273,7 @@
                 </div>
                 <% } %>
 
-                <div class="meal-section">
+                    <div class="meal-section">
                     <h2>
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M6 13.87A4 4 0 0 1 7.41 6a5.11 5.11 0 0 1 1.05-1.54 5 5 0 0 1 7.08 0A5.11 5.11 0 0 1 16.59 6 4 4 0 0 1 18 13.87V21H6Z"/>
@@ -263,11 +281,27 @@
                         </svg>
                         Ingredienti
                     </h2>
-                    <div class="ingredients-grid">
-                        <% meal.ingredienti.forEach(function(ingrediente) { %>
-                            <div class="ingredient-chip"><%= ingrediente %></div>
-                        <% }); %>
+                    <div class="ingredients-list">
+                        <% if (meal.ingredientiConGrammi) { %>
+                            <% meal.ingredientiConGrammi.forEach(function(ingrediente) { %>
+                                <div class="ingredient-item">
+                                    <span class="ingredient-name"><%= ingrediente.nome %></span>
+                                    <span class="ingredient-grammi-badge"><%= ingrediente.grammi %>g</span>
+                                </div>
+                            <% }); %>
+                        <% } else { %>
+                            <% meal.ingredienti.forEach(function(ingrediente) { %>
+                                <div class="ingredient-item"><%= ingrediente %></div>
+                            <% }); %>
+                        <% } %>
                     </div>
+                    <% const totalGrammi = meal.ingredientiConGrammi ? meal.ingredientiConGrammi.reduce((sum, ing) => sum + ing.grammi, 0) : 0; %>
+                    <% if (totalGrammi > 0) { %>
+                    <div class="total-grammi">
+                        <span>Peso totale:</span>
+                        <strong><%= totalGrammi %>g</strong>
+                    </div>
+                    <% } %>
                 </div>
 
                 <div class="meal-section">
