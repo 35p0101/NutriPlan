@@ -19,7 +19,7 @@ router.get('/meal/:name', authRequired, dashboardController.showMealDetail);
 router.get('/api-keys', authRequired, dashboardController.showApiKeys);
 router.get('/api-keys/premium', authRequired, dashboardController.showPremium);
 router.get('/api-keys/premium/pay', authRequired, dashboardController.payPremium);
-router.get('/api-keys/premium/activate', authRequired, dashboardController.activatePremium);
+router.get('/api-keys/premium/activate', dashboardController.activatePremium);
 router.post('/api-keys/premium/confirm', authRequired, dashboardController.confirmPremium);
 router.post('/api-keys/create', authRequired, dashboardController.createApiKey);
 router.post('/api-keys/delete/:id', authRequired, dashboardController.deleteApiKey);

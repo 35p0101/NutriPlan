@@ -227,8 +227,9 @@ module.exports = {
 
     payPremium(req, res) {
         const business = process.env.PAYPAL_EMAIL;
-        const returnUrl = `${req.protocol}://${req.get('host')}/api-keys/premium/activate`;
-        const cancelUrl = `${req.protocol}://${req.get('host')}/api-keys/premium`;
+        const siteUrl = process.env.SITE_URL || `${req.protocol}://${req.get('host')}`;
+        const returnUrl = `${siteUrl}/api-keys/premium/activate?user_id=${req.user.id}`;
+        const cancelUrl = `${siteUrl}/api-keys/premium`;
         const paypalUrl = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=${encodeURIComponent(business)}&item_name=NutriPlan+Premium&amount=2&currency_code=EUR&return=${encodeURIComponent(returnUrl)}&cancel_return=${encodeURIComponent(cancelUrl)}`;
         res.redirect(paypalUrl);
     },
@@ -248,14 +249,16 @@ module.exports = {
 
     async activatePremium(req, res) {
         try {
-            const { subscription_id } = req.query;
-            if (!subscription_id) {
-                return res.redirect('/api-keys?error=ID abbonamento mancante');
+            const { user_id } = req.query;
+            const targetUserId = user_id || (req.user ? req.user.id : null);
+            
+            if (!targetUserId) {
+                return res.redirect('/login?error=Sessione scaduta, effettua il login');
             }
             
             const expiresAt = new Date();
             expiresAt.setMonth(expiresAt.getMonth() + 1);
-            await UserModel.setPremium(req.user.id, true, expiresAt.toISOString());
+            await UserModel.setPremium(targetUserId, true, expiresAt.toISOString());
             res.redirect('/api-keys?success=Premium attivato! Ora puoi generare API key illimitate.');
         } catch (err) {
             console.error('Activate premium error:', err);
