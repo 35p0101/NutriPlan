@@ -4,9 +4,8 @@ Piattaforma web per la pianificazione alimentare personalizzata. NutriPlan ti ai
 
 ## Demo
 
-**[nutriplan.vercel.app](https://nutri-plan-35p0101s-projects.vercel.app)**
+**[Link al sito](https://nutri-plan-35p0101s-projects.vercel.app)**
 
-## Screenshots
 
 ### Homepage
 
