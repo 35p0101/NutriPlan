@@ -119,9 +119,14 @@ npm install
 Crea il file `.env`:
 
 ```env
-SUPABASE_URL=your-project-url
-SUPABASE_ANON_KEY=your-anon-key
-JWT_SECRET=your-secret-key
+SUPABASE_URL=your_supabase_url
+SUPABASE_ANON_KEY=your_supabase_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+JWT_SECRET=your_jwt_secret_here
+PORT=3000
+NODE_ENV=production
+PAYPAL_EMAIL=youremail@dominio
+SITE_URL=your_site_url
 ```
 
 Avvia il server:
