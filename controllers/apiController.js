@@ -117,6 +117,7 @@ module.exports = {
             if (!query) {
                 return res.status(400).json({ error: 'Parametro q richiesto.' });
             }
+
             const products = await fetchFoodInfo(query);
             if (!products || products.length === 0) {
                 return toXmlOrJson(res, req, 'foods', { foods: [] });

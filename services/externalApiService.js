@@ -1,4 +1,58 @@
-const fetch = require('node-fetch');
+const fetch = global.fetch ?? require('node-fetch');
+
+const HEALTHY_API_BASE_URL = 'https://healthysb.onrender.com/api/health';
+
+async function callHealthyApi(endpoint, { method = 'POST', body = {} } = {}) {
+    try {
+        const url = new URL(`${HEALTHY_API_BASE_URL}${endpoint}`);
+        const options = {
+            method,
+            headers: {
+                'Accept': 'text/plain, application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        };
+
+        const response = await fetch(url.toString(), options);
+        if (!response.ok) {
+            return null;
+        }
+
+        return await response.text();
+    } catch (err) {
+        console.warn('Healthy API request failed:', err.message);
+        return null;
+    }
+}
+
+async function getHealthBMI(weight, height) {
+    if (!Number.isFinite(weight) || !Number.isFinite(height) || weight <= 0 || height <= 0) {
+        return null;
+    }
+
+    const text = await callHealthyApi('/bmi', {
+        method: 'POST',
+        body: {
+            peso: String(weight),
+            altezza: String(height)
+        }
+    });
+
+    if (!text) {
+        return null;
+    }
+
+    let raw = text.trim();
+    try {
+        raw = JSON.parse(raw);
+    } catch {
+        // keep raw string value
+    }
+
+    const bmi = parseFloat(String(raw).trim());
+    return Number.isFinite(bmi) ? bmi : null;
+}
 
 const FALLBACK_FOODS = {
     slim: [
@@ -71,4 +125,4 @@ async function getFoodsByGoal(goal) {
     return FALLBACK_FOODS[goal].slice(0, 3);
 }
 
-module.exports = { fetchFoodInfo, getNutritionFacts, getFoodsByGoal, FALLBACK_FOODS };
+module.exports = { fetchFoodInfo, getNutritionFacts, getFoodsByGoal, getHealthBMI, FALLBACK_FOODS };

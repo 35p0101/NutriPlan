@@ -2,6 +2,7 @@ const DietModel = require('../models/DietModel');
 const MealPlanModel = require('../models/MealPlanModel');
 const { generateMealPlan, addGrammiToAllMeals } = require('../services/mealDbService');
 const calc = require('../services/calculations');
+const externalHealthApi = require('../services/externalApiService');
 
 function addGrammiToPlan(planData) {
     if (!planData) return planData;
@@ -25,14 +26,14 @@ module.exports = {
         res.render('diet/step2', { user: req.user, goal, error: null });
     },
 
-    showStep3(req, res) {
+    async showStep3(req, res) {
         const { goal, weight, height, activity } = req.query;
 
         if (!goal || !weight || !height || !activity) {
             return res.redirect('/diet/step1');
         }
 
-        const bmi = calc.calcBMI(+weight, +height);
+        const bmi = await externalHealthApi.getHealthBMI(+weight, +height) ?? calc.calcBMI(+weight, +height);
         const bmr = calc.calcBMR(+weight, +height, req.user.age, req.user.sex);
         const activityMultiplier = calc.getActivityMultiplier(activity);
         const tdee = calc.calcTDEE(bmr, activityMultiplier);
@@ -69,7 +70,7 @@ module.exports = {
             else if (activity_multiplier >= 1.3) activityLevel = 2;
             else activityLevel = 1;
 
-            const bmi = calc.calcBMI(+weight, +height);
+            const bmi = await externalHealthApi.getHealthBMI(+weight, +height) ?? calc.calcBMI(+weight, +height);
             const bmr = calc.calcBMR(+weight, +height, req.user.age, req.user.sex);
             const tdee = calc.calcTDEE(bmr, +activity_multiplier);
             const calories = calc.calcCalories(tdee, goal);
