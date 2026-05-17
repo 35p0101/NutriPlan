@@ -1,5 +1,12 @@
 const fetch = global.fetch ?? require('node-fetch');
 
+async function fetchWithTimeout(url, options = {}, timeout = 5000) {
+    return Promise.race([
+        fetch(url, options),
+        new Promise((_, reject) => setTimeout(() => reject(new Error('Request timed out')), timeout))
+    ]);
+}
+
 const HEALTHY_API_BASE_URL = 'https://healthysb.onrender.com/api/health';
 
 async function callHealthyApi(endpoint, { method = 'POST', body = {} } = {}) {
@@ -14,8 +21,8 @@ async function callHealthyApi(endpoint, { method = 'POST', body = {} } = {}) {
             body: JSON.stringify(body)
         };
 
-        const response = await fetch(url.toString(), options);
-        if (!response.ok) {
+        const response = await fetchWithTimeout(url.toString(), options, 5000);
+        if (!response || !response.ok) {
             return null;
         }
 
@@ -74,7 +81,7 @@ const FALLBACK_FOODS = {
 async function fetchFoodInfo(query) {
     try {
         const url = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(query)}&search_simple=1&action=process&json=1&page_size=3&json=1`;
-        const response = await fetch(url, {
+        const response = await fetchWithTimeout(url, {
             headers: {
                 'User-Agent': 'NutriPlan/1.0 - School Project (https://github.com)'
             }
