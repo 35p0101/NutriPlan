@@ -1,3 +1,6 @@
+// Controller per autenticazione: registrazione, login e logout.
+// Validazioni principali vengono eseguite qui (controlli di base).
+// Genera token JWT e imposta cookie sicuri per le sessioni.
 const jwt = require('jsonwebtoken');
 const UserModel = require('../models/UserModel');
 const { calcBMI, getBMICategory } = require('../services/calculations');
@@ -11,6 +14,11 @@ module.exports = {
         res.render('login', { user: null, error: null });
     },
 
+    // Gestisce la registrazione utente:
+    // - convalida campi obbligatori e formati
+    // - verifica unicità di email/username
+    // - calcola età e valida intervallo
+    // - crea l'utente e genera un JWT per la sessione
     async register(req, res) {
         try {
             const { username, email, password, password_confirm, dob, sex, profile_picture_base64 } = req.body;
@@ -68,6 +76,10 @@ module.exports = {
         }
     },
 
+    // Gestisce il login utente:
+    // - verifica presenza di email e password
+    // - controlla la password rispetto all'hash salvato
+    // - crea un JWT e imposta il cookie di sessione
     async login(req, res) {
         try {
             const { email, password } = req.body;

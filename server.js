@@ -2,6 +2,10 @@ require('dotenv').config();
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const path = require('path');
+// File: server.js
+// Questo file inizializza l'app Express, registra middleware di sicurezza,
+// definisce le rotte principali e avvia il server (o esporta l'app per Vercel).
+// I commenti seguono le sezioni principali per facilitare la lettura.
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 
@@ -28,9 +32,12 @@ app.use(limiter);
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+// Parser per form e JSON con limiti di dimensione per evitare payload troppo grandi
 app.use(express.urlencoded({ extended: true, limit: '5mb' }));
 app.use(express.json({ limit: '5mb' }));
+// Cookie parser per gestire i cookie di sessione (es. nutriplan_token)
 app.use(cookieParser());
+// Cartella pubblica per risorse statiche (JS/CSS/immagini)
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', authRoutes);
@@ -38,6 +45,7 @@ app.use('/diet', dietRoutes);
 app.use('/', dashboardRoutes);
 app.use('/api', apiRoutes);
 
+// Middleware centralizzato di gestione errori: logga l'errore e restituisce 500
 app.use((err, req, res, next) => {
     console.error('Error:', err);
     res.status(500).send('Internal Server Error');
@@ -47,6 +55,7 @@ const PORT = process.env.PORT || 3000;
 
 async function start() {
     try {
+        // Inizializza la connessione al DB/servizio esterno (Supabase)
         await initDb();
         if (process.env.VERCEL) {
             return app;

@@ -1,8 +1,16 @@
 const ApiKeyModel = require('../models/ApiKeyModel');
 
+// Middleware per proteggere le API tramite API key.
+// Funzionalità principali:
+// - verifica la chiave tramite ApiKeyModel
+// - rifiuta chiavi revocate o disabilitate
+// - applica un semplice rate-limit per singola chiave (in-memory)
+// Nota: per produzione usare uno store condiviso (es. Redis) per il rate-limit.
 const keyCounters = new Map();
 const KEY_WINDOW_MS = 60 * 1000; // 1 minuto
 
+// Controlla il rate per una data API key: mantiene un contatore
+// e una finestra temporale. Restituisce true se la key è entro il limite.
 function checkKeyRate(apiKey, isPremium) {
     const now = Date.now();
     const limit = isPremium ? 600 : 60;

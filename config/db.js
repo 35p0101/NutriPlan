@@ -1,3 +1,7 @@
+// Wrapper di accesso al DB usando Supabase.
+// Fornisce un'interfaccia minimale simile a `prepare(...).run()`/`get()`
+// per mantenere compatibilità con il codice originario che usava SQLite.
+// Le query vengono mappate in chiamate a Supabase (insert/update/select).
 const { createClient } = require('@supabase/supabase-js');
 
 const supabaseUrl = process.env.SUPABASE_URL;
@@ -99,11 +103,15 @@ async function executeQuery(sql, params, single = false) {
 
     if (!tableName) return { lastInsertRowid: 0, changes: 0 };
 
+    // Determina il tipo di query (INSERT / UPDATE / SELECT) per mappare
+    // la stringa SQL alla corrispondente operazione supabase.
     const isInsert = sql.trim().toUpperCase().startsWith('INSERT');
     const isUpdate = sql.trim().toUpperCase().startsWith('UPDATE');
     const isSelect = sql.trim().toUpperCase().startsWith('SELECT');
 
     try {
+        // Gestione INSERT: estrae colonne e valori dai placeholder e
+        // invia un `insert` a Supabase, restituendo l'id creato.
         if (isInsert) {
             const columns = sql.match(/\(([^)]+)\)\s*VALUES/i)?.[1].split(',').map(c => c.trim());
             const obj = {};
@@ -118,6 +126,8 @@ async function executeQuery(sql, params, single = false) {
             return { lastInsertRowid: data?.id || 0, changes: error ? 0 : 1 };
         }
 
+        // Gestione UPDATE: tenta di mappare SET e WHERE in un oggetto
+        // da passare a Supabase .update(obj).eq(whereCol, whereVal).
         if (isUpdate) {
             const cleanedSql = sql.replace(/\n/g, ' ').replace(/\s+/g, ' ');
             
@@ -159,6 +169,8 @@ async function executeQuery(sql, params, single = false) {
             return { changes: error ? 0 : 1 };
         }
 
+        // Gestione SELECT: prova a tradurre semplici WHERE/ORDER/LIMIT
+        // in chiamate Supabase e restituisce risultati (array o singolo).
         if (isSelect) {
             console.log('[DEBUG] SELECT:', { tableName, sql, params });
             let query = supabase.from(tableName).select('*');

@@ -1,3 +1,7 @@
+// Modello utente: operazioni CRUD minime e hashing password.
+// ATTENZIONE: l'hashing usato è SHA256 con un salt statico definito
+// qui per compatibilità con il codice esistente. SHA256 con salt
+// statico è meno sicuro di bcrypt/argon2; valutare upgrade in futuro.
 const db = require('../config/db');
 const crypto = require('crypto');
 

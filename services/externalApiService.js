@@ -1,5 +1,9 @@
+// Servizi esterni: wrapper per chiamate a servizi terzi (Healthy API, OpenFoodFacts)
+// Qui centralizziamo timeouts, parsing e fallback per aumentare la robustezza.
 const fetch = global.fetch ?? require('node-fetch');
 
+// Esegue una fetch con timeout: se la chiamata impiega più di `timeout` ms
+// la promessa viene rigettata per evitare blocchi dell'app.
 async function fetchWithTimeout(url, options = {}, timeout = 5000) {
     return Promise.race([
         fetch(url, options),
@@ -33,6 +37,8 @@ async function callHealthyApi(endpoint, { method = 'POST', body = {} } = {}) {
     }
 }
 
+// Calcola il BMI chiamando il servizio esterno e normalizzando il risultato.
+// Restituisce `null` in caso di input non valido o se il servizio fallisce.
 async function getHealthBMI(weight, height) {
     if (!Number.isFinite(weight) || !Number.isFinite(height) || weight <= 0 || height <= 0) {
         return null;
@@ -81,6 +87,7 @@ const FALLBACK_FOODS = {
 async function fetchFoodInfo(query) {
     try {
         const url = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(query)}&search_simple=1&action=process&json=1&page_size=3&json=1`;
+        // Cerca prodotti su OpenFoodFacts e restituisce l'array `products`.
         const response = await fetchWithTimeout(url, {
             headers: {
                 'User-Agent': 'NutriPlan/1.0 - School Project (https://github.com)'
