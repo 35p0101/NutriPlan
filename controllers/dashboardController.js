@@ -249,8 +249,7 @@ module.exports = {
 
     async activatePremium(req, res) {
         try {
-            const { user_id } = req.query;
-            const targetUserId = user_id || (req.user ? req.user.id : null);
+            const targetUserId = req.user ? req.user.id : null;
             
             if (!targetUserId) {
                 return res.redirect('/login?error=Sessione scaduta, effettua il login');
