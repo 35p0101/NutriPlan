@@ -120,6 +120,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const profileAvatarLarge = document.querySelector('.profile-avatar-large');
     const updateForm = document.querySelector('.update-pic-form');
     const cancelBtn = document.getElementById('cancel-pic-btn');
+    const changePhotoLabel = document.querySelector('label[for="profile_picture"]');
+    const removePicForm = document.querySelector('.remove-pic-form');
     let originalAvatarHtml = '';
     let originalAvatarClass = '';
     
@@ -142,6 +144,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 if (cancelBtn) cancelBtn.style.display = 'inline-block';
                 if (saveBtn) saveBtn.style.display = 'inline-block';
+                if (changePhotoLabel) changePhotoLabel.style.display = 'none';
+                if (removePicForm) removePicForm.style.display = 'none';
 
                 const reader = new FileReader();
                 reader.onload = function(event) {
@@ -169,6 +173,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                 cancelBtn.style.display = 'none';
                 if (saveBtn) saveBtn.style.display = 'none';
+                if (changePhotoLabel) changePhotoLabel.style.display = '';
+                if (removePicForm) removePicForm.style.display = '';
             });
         }
 
@@ -180,6 +186,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else {
                     if (saveBtn) saveBtn.style.display = 'none';
                     if (cancelBtn) cancelBtn.style.display = 'none';
+                    if (changePhotoLabel) changePhotoLabel.style.display = 'none';
+                    if (removePicForm) removePicForm.style.display = 'none';
                 }
             });
         }
