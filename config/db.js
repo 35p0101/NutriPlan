@@ -137,9 +137,9 @@ async function executeQuery(sql, params, single = false) {
             const obj = {};
             let paramIdx = 0;
             
-            // Use params length to determine how many go to SET
+            // Usa la lunghezza di params per determinare quanti valori vanno in SET
             const totalPlaceholders = (setPart.match(/\?/g) || []).length;
-            const setParamCount = Math.min(totalPlaceholders, params.length - 1); // -1 for WHERE
+            const setParamCount = Math.min(totalPlaceholders, params.length - 1); // -1 per WHERE
             
             for (let i = 0; i < setParamCount; i++) {
                 if (i < setCols.length && i < params.length) {

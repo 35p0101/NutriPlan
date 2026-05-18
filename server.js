@@ -14,13 +14,13 @@ const apiRoutes = require('./routes/apiRoutes');
 
 const app = express();
 
-// Security headers
+// Intestazioni di sicurezza
 app.use(helmet());
 
-// Basic rate limiting
+// Rate limiting di base
 const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 200, // limit each IP to 200 requests per windowMs
+    windowMs: 15 * 60 * 1000, // 15 minuti
+    max: 200, // limita ogni IP a 200 richieste per finestra
     standardHeaders: true,
     legacyHeaders: false
 });

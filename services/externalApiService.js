@@ -54,7 +54,7 @@ async function getHealthBMI(weight, height) {
     try {
         raw = JSON.parse(raw);
     } catch {
-        // keep raw string value
+        // mantieni il valore stringa grezzo
     }
 
     const bmi = parseFloat(String(raw).trim());

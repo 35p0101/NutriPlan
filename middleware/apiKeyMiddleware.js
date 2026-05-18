@@ -1,7 +1,7 @@
 const ApiKeyModel = require('../models/ApiKeyModel');
 
 const keyCounters = new Map();
-const KEY_WINDOW_MS = 60 * 1000; // 1 minute
+const KEY_WINDOW_MS = 60 * 1000; // 1 minuto
 
 function checkKeyRate(apiKey, isPremium) {
     const now = Date.now();
@@ -29,7 +29,7 @@ const apiKeyMiddleware = async (req, res, next) => {
             return res.status(401).json({ error: 'API key non valida.' });
         }
 
-        // Reject revoked/disabled keys if such flags exist
+        // Rifiuta chiavi revocate/disabilitate se presente il relativo flag
         if (keyData.revoked || keyData.is_revoked || keyData.disabled) {
             return res.status(401).json({ error: 'API key revocata.' });
         }
@@ -39,7 +39,7 @@ const apiKeyMiddleware = async (req, res, next) => {
             return res.status(429).json({ error: 'Rate limit superato per questa API key.' });
         }
 
-        // Update last used timestamp (fire-and-forget)
+        // Aggiorna il timestamp di ultimo utilizzo (fire-and-forget)
         ApiKeyModel.updateLastUsed(keyData.id).catch(() => {});
 
         req.apiKey = { id: keyData.id, user_id: keyData.user_id, is_premium: isPremium };
