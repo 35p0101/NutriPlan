@@ -1,6 +1,5 @@
 const ApiKeyModel = require('../models/ApiKeyModel');
 
-// Simple in-memory per-key rate limiting (best-effort). For production, use Redis-based limiter.
 const keyCounters = new Map();
 const KEY_WINDOW_MS = 60 * 1000; // 1 minute
 
