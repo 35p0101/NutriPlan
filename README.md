@@ -1,123 +1,83 @@
 # NutriPlan
-
-Piattaforma web per la pianificazione alimentare personalizzata. NutriPlan ti aiuta a creare un piano pasti settimanale basato sulle tue esigenze nutrizionali, con ricette italiane genuine e un'interfaccia moderna e intuitiva.
-
+> Personalized meal planning platform. NutriPlan helps you create a weekly meal plan based on your nutritional needs, featuring authentic Italian recipes and a modern, intuitive interface.
 ## Demo
-
-**[Link al sito](https://nutri-plan-iota-two.vercel.app)**
-
-
+**[Live Site](https://nutri-plan-iota-two.vercel.app)**
 ### Homepage
-
 ![Homepage](public/img/screen_homepage.png)
-
 ---
-
-## Funzionalità
-
-### Calcolatore BMI Integrato
-
-Calcola immediatamente il tuo Indice di Massa Corporea direttamente dalla homepage. Il sistema analizza peso e altezza per fornirti una panoramica completa del tuo stato nutrizionale, con suggerimenti personalizzati.
-
-### Wizard per la Dieta (3 Step)
-
-Un processo guidato in 3 passaggi per creare il tuo piano alimentare personalizzato:
-
-1. **Step 1 - Obiettivo**: Scegli il tuo obiettivo tra "Dimagrire" o "Massa Muscolare"
-2. **Step 2 - Dati Personali**: Inserisci peso, altezza, età, sesso e livello di attività fisica
-3. **Step 3 - Conferma**: Rivedi e conferma il tuo piano nutrizionale personalizzato
-
-### Algoritmi Nutrizionali Avanzati
-
-Il sistema utilizza formule scientifiche riconosciute:
-
-- **BMI**: Indice di Massa Corporea
-- **BMR (Mifflin-St Jeor)**: Fabbisogno energetico a riposo
-- **TDEE**: Fabbisogno energetico giornaliero totale
-- **Macronutrienti**: Proteine, carboidrati e grassi calcolati in base all'obiettivo
-
-### Piano Pasti Settimanale
-
-Generazione automatica di un piano pasti completo per 7 giorni, con:
-
-- **Colazione**: pasti energetici per iniziare la giornata
-- **Pranzo**: pasti equilibrati per il pranzo
-- **Cena**: pasti leggeri ma nutrienti
-- **Spuntino**: snack sani tra i pasti
-- **Sgarro settimanale**: un pasto libero per non rinunciare ai piaceri
-
-Ogni pasto include:
-- Nome del piatto
-- Ingredienti necessari
-- Tempo di preparazione
-- Difficoltà
-- Istruzioni di preparazione
-- Valori nutrizionali completi (calorie, proteine, carboidrati, grassi)
-
-### Ricette Italiane Autentiche
-
-Oltre 150 ricette della tradizione italiana pre-caricate, organizzate per categoria:
-
-- Primi piatti (pasta, risotto, zuppe)
-- Secondi piatti (carne, pesce, uova)
-- Piatti unici e insalate
-- Colazioni e spuntini
-- Sgarri settimanali
-
-### Ricerca Alimenti
-
-Integrazione con Open Food Facts per cercare informazioni nutrizionali dettagliate su qualsiasi alimento. In caso di temporanea non disponibilità dell'API, il sistema utilizza un database di fallback.
-
-### Gestione API Keys
-
+## Features
+### Built-in BMI Calculator
+Calculate your Body Mass Index directly from the homepage. The system analyzes weight and height to provide a comprehensive overview of your nutritional status, with personalized suggestions.
+### 3-Step Diet Wizard
+A guided 3-step process to create your personalized meal plan:
+1. **Step 1 - Goal**: Choose between "Lose Weight" or "Build Muscle"
+2. **Step 2 - Personal Data**: Enter weight, height, age, sex, and activity level
+3. **Step 3 - Confirmation**: Review and confirm your personalized nutritional plan
+### Advanced Nutritional Algorithms
+The system uses scientifically recognized formulas:
+- **BMI**: Body Mass Index
+- **BMR (Mifflin-St Jeor)**: Resting energy expenditure
+- **TDEE**: Total daily energy expenditure
+- **Macronutrients**: Proteins, carbs, and fats calculated based on your goal
+### Weekly Meal Plan
+Auto-generates a complete 7-day meal plan with:
+- **Breakfast**: Energy-packed meals to start the day
+- **Lunch**: Balanced midday meals
+- **Dinner**: Light yet nutritious meals
+- **Snack**: Healthy snacks between meals
+- **Weekly Cheat Meal**: A guilt-free indulgence
+Each meal includes:
+- Dish name
+- Required ingredients
+- Prep time
+- Difficulty level
+- Cooking instructions
+- Full nutritional breakdown (calories, protein, carbs, fat)
+### Authentic Italian Recipes
+Over 150 pre-loaded traditional Italian recipes, organized by category:
+- First courses (pasta, risotto, soups)
+- Main courses (meat, fish, eggs)
+- One-dish meals and salads
+- Breakfasts and snacks
+- Weekly cheat meals
+### Food Search
+Integration with Open Food Facts to look up detailed nutritional information for any food. When the API is temporarily unavailable, the system falls back to a local database.
+### API Key Management
 ![API Keys](public/img/screen_api_keys.png)
-
-Sezione dedicata per la gestione delle chiavi API personali, utili per:
-- Accesso programmatico ai propri dati nutrizionali
-- Integrazione con altre applicazioni
-- Accesso pubblico alla propria dieta (con consenso)
-
-**Piano Base**: massimo 2 API keys
-**Premium**: 2€/mese per chiavi illimitate + funzionalità avanzate
-
-### Dashboard Utente
-
+Dedicated section for managing personal API keys, useful for:
+- Programmatic access to your nutritional data
+- Integration with other applications
+- Public access to your diet plan (with consent)
+**Free Tier**: Up to 2 API keys
+**Premium**: €2/month for unlimited keys + advanced features
+### User Dashboard
 ![Dashboard](public/img/screen_dashboard.png)
-
-Dashboard completa con:
-- Panoramica del piano pasti settimanale
-- Statistiche nutrizionali giornaliere
-- Progressione verso gli obiettivi
-- Possibilità di rigenerare il piano in qualsiasi momento
-
-### Supporto Multi-Formato
-
-I dati API sono disponibili in:
-- **JSON**: formato predefinito
-- **XML**: disponibile tramite parametro `?format=xml` o header `Accept: application/xml`
-
+Full-featured dashboard with:
+- Weekly meal plan overview
+- Daily nutritional statistics
+- Goal progress tracking
+- One-click plan regeneration
+### Multi-Format Support
+API data available in:
+- **JSON**: default format
+- **XML**: available via `?format=xml` parameter or `Accept: application/xml` header
 ---
-
 ## Tech Stack
-
-- **Backend**: Node.js + Express.js
-- **Frontend**: EJS + Vanilla JavaScript
-- **Database**: Supabase (PostgreSQL)
-- **Autenticazione**: JWT
-- **API esterne**: Open Food Facts, TheMealDB (per ricette)
-
+| Layer | Technology |
+|-------|-----------|
+| Backend | Node.js + Express.js |
+| Frontend | EJS + Vanilla JavaScript |
+| Database | Supabase (PostgreSQL) |
+| Auth | JWT |
+| External APIs | Open Food Facts, TheMealDB |
 ---
-
 ## Quick Start
-
 ```bash
 git clone https://github.com/35p0101/NutriPlan.git
 cd NutriPlan
 npm install
 ```
-
-Crea il file `.env`:
-
+Create a `.env` file:
 ```env
 SUPABASE_URL=your_supabase_url
 SUPABASE_ANON_KEY=your_supabase_anon_key
@@ -125,39 +85,28 @@ SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
 JWT_SECRET=your_jwt_secret_here
 PORT=3000
 NODE_ENV=production
-PAYPAL_EMAIL=youremail@dominio
+PAYPAL_EMAIL=youremail@domain.com
 SITE_URL=your_site_url
 ```
-
-Avvia il server:
-
+Start the server:
 ```bash
 npm run dev
 ```
-
-Apri `http://localhost:3000`
-
+Open `http://localhost:3000`
 ---
-
-## API Pubbliche
-
-| Endpoint | Descrizione |
+## Public API
+| Endpoint | Description |
 |----------|-------------|
-| `GET /api/recipes` | Ricette random dalla tradizione italiana |
-| `GET /api/food?q=alimento` | Ricerca informazioni nutrizionali |
-| `GET /api/foods-by-goal?goal=slim\|muscle` | Alimenti consigliati per obiettivo |
-| `GET /api/meal/:nome` | Dettagli ricetta specifica |
-
-## API con API Key
-
-| Endpoint | Descrizione |
+| `GET /api/recipes` | Random Italian recipes |
+| `GET /api/food?q=food` | Search nutritional info |
+| `GET /api/foods-by-goal?goal=slim\|muscle` | Recommended foods by goal |
+| `GET /api/meal/:name` | Recipe details |
+## API Key Endpoints
+| Endpoint | Description |
 |----------|-------------|
-| `GET /api/meal-plan` | Piano pasti settimanale dell'utente |
-| `GET /api/diet` | Dati dieta (BMI, calorie, macronutrienti) |
-| `POST /api/regenerate` | Rigenera il piano pasti |
-
+| `GET /api/meal-plan` | User's weekly meal plan |
+| `GET /api/diet` | Diet data (BMI, calories, macros) |
+| `POST /api/regenerate` | Regenerate meal plan |
 ---
-
-## Licenza
-
+## License
 MIT
